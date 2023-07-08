@@ -8,32 +8,32 @@ import axios from 'axios'
 const API_URL = 'http://localhost:5000'
 
 const App = () => {
-  const [name, setName] = useState('')
+  //회원가입
+  const [nickname, setNickName] = useState('')
   const [id, setId] = useState('')
   const [password, setPassword] = useState('')
-  const [passwordConfirm, setPasswordConfirm] = useState('')
-  const [phoneNumber, setPhoneNumber] = useState('')
-  const [email, setEmail] = useState('')
+  const [team, setTeam] = useState('')
+
+
+  //로그인
+  const [LoginName,setLoginName]=useState('')
+  const [LoginPassword,setLoginPassword]=useState('')
 
   const signUp = async () => {
     if (
-      !name ||
+      !nickname ||
       !id ||
       !password ||
-      !passwordConfirm ||
-      !phoneNumber ||
-      !email
+      !team 
     ) {
       console.error('모든 입력 값을 채워주세요.')
       return
     }
     const newUserData = {
-      name,
+      nickname,
       id,
       password,
-      passwordConfirm,
-      phoneNumber,
-      email,
+      team
     }
 
     try {
@@ -50,27 +50,55 @@ const App = () => {
     }
   }
 
+  const signIn = async () => {
+    if (
+      !nickname ||
+      !id ||
+      !password ||
+      !team 
+    ) {
+      console.error('모든 입력 값을 채워주세요.')
+      return
+    }
+    const newUserData = {
+      nickname,
+      id,
+      password,
+      team
+    }
+
+    try {
+      const response = await axios({
+        method: 'post',
+        url: `${API_URL}/signin`,
+        data: newUserData,
+        headers: { 'Content-Type': 'application/json' },
+      })
+
+      console.log(response.data.message)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return (
     <View>
-      <Text>Name:</Text>
-      <TextInput value={name} onChangeText={text => setName(text)} />
+      <Text>NickName:</Text>
+      <TextInput value={nickname} onChangeText={text => setNickName(text)} />
       <Text>ID:</Text>
       <TextInput value={id} onChangeText={text => setId(text)} />
       <Text>Password:</Text>
       <TextInput value={password} onChangeText={text => setPassword(text)} />
-      <Text>Password Confirm:</Text>
+      <Text>Team:</Text>
       <TextInput
-        value={passwordConfirm}
-        onChangeText={text => setPasswordConfirm(text)}
+        value={team}
+        onChangeText={text => setTeam(text)}
       />
-      <Text>Phone Number:</Text>
-      <TextInput
-        value={phoneNumber}
-        onChangeText={text => setPhoneNumber(text)}
-      />
-      <Text>Email:</Text>
-      <TextInput value={email} onChangeText={text => setEmail(text)} />
       <Button title="Sign Up" onPress={signUp} />
+      <Text>ID:</Text>
+      <TextInput value={id} onChangeText={text => setId(text)} />
+      <Text>Password:</Text>
+      <TextInput value={password} onChangeText={text => setPassword(text)} />
     </View>
   )
 }
