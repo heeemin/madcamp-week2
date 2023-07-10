@@ -7,7 +7,7 @@ const buttonWidth = 100 / NUM_COLUMNS + '%'; // 버튼의 가로 길이 계산
 
 const StagePage = ({ navigation }) => {
   const buttons = [];
-  for (let i = 1; i <= 21; i++) {
+  for (let i = 1; i <= NUM_BUTTONS; i++) {
     buttons.push(
       <View key={`button-${i}`} style={styles.buttonContainer}>
         <Button

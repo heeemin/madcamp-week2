@@ -1,4 +1,5 @@
 import { Fragment } from 'react';
+import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 
@@ -23,16 +24,17 @@ export default function App() {
       </Stack.Screen>
     );
   }
-
+  
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="LoginPage" component={ LoginPage }/>
-        <Stack.Screen name="HomePage" component={ HomePage }/>
-        <Stack.Screen name="StagePage" component={ StagePage }/>
+        <Stack.Screen name="LoginPage" component={LoginPage} />
+        <Stack.Screen name="HomePage" component={HomePage} />
+        <Stack.Screen name="StagePage" component={StagePage} />
         <Fragment>{ mazePages }</Fragment>
       </Stack.Navigator>
     </NavigationContainer>
+    
 /*
       <Tab.Navigator>
         <Tab.Screen name="LoginPage" component={ LoginPage }/>
