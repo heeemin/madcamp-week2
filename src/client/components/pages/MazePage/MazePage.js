@@ -5,7 +5,7 @@ import Mazeboard from '../../layouts/Mazeboard';
 const MazePage = ({ stage }) => (
   <View style={styles.mazepage}>
     <Text>{'This is MazePage No.' + stage}</Text>
-    <Mazeboard stage={ 1 } />
+    <Mazeboard stage={ stage } />
   </View>
 );
 
