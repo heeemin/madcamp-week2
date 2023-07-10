@@ -11,8 +11,10 @@ import Animated, {
 
 const AnimatedImage = Animated.createAnimatedComponent(Image);
 
+const startCharacterX = 138;
+const startCharacterY = 138;
 
-const Character = ({ screenFixed, left, top/*, containerStyle, onDrag, onDoubleTap*/ }) => {
+const Character = ({ screenFixed, characterX, characterY /*, containerStyle, onDrag, onDoubleTap*/ }) => {
   /*
   const imageStyle = useAnimatedStyle(() => {
     return {
@@ -121,8 +123,34 @@ const Character = ({ screenFixed, left, top/*, containerStyle, onDrag, onDoubleT
     */
   const redCircle = require('../../../assets/character/circle_red.png');
   const blueCircle = require('../../../assets/character/circle_blue.png');
-  console.log(`Character: ${screenFixed}`);
+  // console.log(`Character: ${screenFixed}`);
+/*
+  const AnimatingBox = () => {
+    const animatedValue = useSharedValue(0);
 
+    const animationStyle = useAnimatedStyle(() => {
+      const top = interpolate(animatedValue.value,
+        [0, 1],
+        [0, 100],
+        Extrapolate.CLAMP
+      );
+      const left = interpolate(animatedValue.value,
+        [0, 1],
+        [0, 100],
+        Extrapolate.CLAMP
+      );
+  
+      return {
+        top,
+        left
+      };
+    });
+  }
+
+  React.useEffect(() => {
+    animatedValue.value = withTiming(1, { duration: 1000 });
+  }, []);
+*/
   return (
     <AnimatedImage
       source={screenFixed ? redCircle : blueCircle}
@@ -130,8 +158,8 @@ const Character = ({ screenFixed, left, top/*, containerStyle, onDrag, onDoubleT
       style={[
         styles.circle,
         {
-          left: left,
-          top: top
+          left: characterX,
+          top: characterY
         }
       ]}
     />

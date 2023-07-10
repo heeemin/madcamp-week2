@@ -1,8 +1,12 @@
+import React, { useState, useEffect } from 'react';
 import { View, ImageBackground, Image, StyleSheet } from 'react-native';
 import { PanGestureHandler, TapGestureHandler, State } from 'react-native-gesture-handler';
 import Animated, {
-  useAnimatedStyle,
   useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  interpolate,
+  Extrapolate,
   useAnimatedGestureHandler,
   withSpring,
 } from 'react-native-reanimated';
@@ -34,22 +38,81 @@ const images = {
   imageHD: require('../../../assets/maze/Mazeboard21.png')
 };
 
-const Mazeboard = ({ stage, screenFixed, left, top/*containerStyle, onDrag, onDoubleTap*/ }) => {
+const startMazeBoardX = 0;
+const startMazeBoardY = 0;
+
+const Mazeboard = ({ stage, screenFixed, mazeBoardX, mazeBoardY /*containerStyle, onDrag, onDoubleTap*/ }) => {
   const source = '../../../assets/maze/Mazeboard' + String(stage).padStart(2, '0') + '.png';
   console.log(source);
+/*
+  const [positionX, setPositionX] = useState(startMazeBoardX);
+  const [positionY, setPositionY] = useState(startMazeBoardY);
+
+  const animatedValue = useSharedValue(0);
+
+  const animationStyle = useAnimatedStyle(() => {
+    const left = interpolate(animatedValue.value,
+      [0, 1],
+      [positionX, mazeBoardX],
+      Extrapolate.CLAMP
+    );
+    const top = interpolate(animatedValue.value,
+      [0, 1],
+      [positionY, mazeBoardY],
+      Extrapolate.CLAMP
+    );
+  
+    return {
+      left,
+      top
+    };
+  });
+
+  React.useEffect(() => {
+    animatedValue.value = withTiming(1, { duration: 1000 });
+    setPositionX(mazeBoardX);
+    setPositionY(mazeBoardY);
+  }, []);
+*/
   // https://stackoverflow.com/questions/33907218/react-native-use-variable-for-image-file
 
-  console.log(`Mazeboard: ${screenFixed}`);
+  // console.log(`Mazeboard: ${screenFixed}`);
+/*
+  const AnimatingBox = () => {
+    const animatedValue = useSharedValue(0);
 
+    const animationStyle = useAnimatedStyle(() => {
+      const top = interpolate(animatedValue.value,
+        [0, 1],
+        [0, 100],
+        Extrapolate.CLAMP
+      );
+      const left = interpolate(animatedValue.value,
+        [0, 1],
+        [0, 100],
+        Extrapolate.CLAMP
+      );
+  
+      return {
+        top,
+        left
+      };
+    });
+  }
+
+  React.useEffect(() => {
+    animatedValue.value = withTiming(1, { duration: 1000 });
+  }, []);
+*/
   return (
     <Image
       style={[
         styles.maze,
         {
-          left: left,
-          top: top
+          left: mazeBoardX,
+          top: mazeBoardY
         }
-      ]}
+        /*animationStyle*/]}
       source={images[`image${String(stage).padStart(2, '0')}`]}
     />
   )
