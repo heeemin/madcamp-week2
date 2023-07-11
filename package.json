@@ -1,29 +1,6 @@
 {
-<<<<<<< HEAD
-  "name": "project3",
+  "name": "madcamp-week2",
   "version": "1.0.0",
-  "scripts": {
-    "start": "expo start --dev-client",
-    "android": "expo run:android",
-    "ios": "expo run:ios",
-    "web": "expo start --web"
-  },
-  "dependencies": {
-    "@expo/webpack-config": "^18.0.1",
-    "@react-native-google-signin/google-signin": "^10.0.1",
-    "axios": "^1.4.0",
-    "cors": "^2.8.5",
-    "expo": "~48.0.18",
-    "expo-status-bar": "~1.4.4",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "react-native": "0.71.8",
-    "react-native-web": "~0.18.10",
-    "expo-splash-screen": "~0.18.2"
-=======
-  "name": "project2",
-  "version": "1.0.0",
-  "main": "App.js",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
@@ -31,23 +8,31 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@expo/webpack-config": "^18.0.1",
+    "@react-native-async-storage/async-storage": "1.17.11",
+    "@react-native-google-signin/google-signin": "^10.0.1",
+    "@react-navigation/native": "^6.1.7",
+    "@react-navigation/native-stack": "^6.9.13",
+    "@react-navigation/stack": "^6.3.17",
+    "axios": "^1.4.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
     "expo": "~48.0.18",
+    "expo-auth-session": "~4.0.3",
+    "expo-crypto": "~12.2.1",
+    "expo-device": "~5.2.1",
+    "expo-google-app-auth": "~8.3.0",
+    "expo-splash-screen": "~0.18.2",
     "expo-status-bar": "~1.4.4",
-    "express": "^4.18.2",
-    "mongoose": "^7.3.2",
+    "expo-web-browser": "~12.1.1",
+    "jwt-decode": "^3.1.2",
     "react": "18.2.0",
-    "react-native": "0.71.8"
->>>>>>> 159e79dec7dbe3f5de5f39fc5766bc531a4893d1
+    "react-dom": "18.2.0",
+    "react-native": "0.71.8",
+    "react-native-web": "~0.18.10"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
   },
-<<<<<<< HEAD
   "private": true
-=======
-  "private": true,
-  "author": "",
-  "license": "ISC",
-  "description": ""
->>>>>>> 159e79dec7dbe3f5de5f39fc5766bc531a4893d1
 }
