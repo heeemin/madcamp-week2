@@ -22,6 +22,7 @@ const startMazeBoardX = 0;
 const startMazeBoardY = 0;
 const startCharacterX = 138;
 const startCharacterY = 138;
+const gridSize = 44;
 
 const MazePage = ({ stage }) => {
   //const translateX = useSharedValue(0);
@@ -39,21 +40,26 @@ const MazePage = ({ stage }) => {
       runOnJS(setMazeBoardX)(mazeBoardX+startCharacterX-characterX),
       runOnJS(setMazeBoardY)(mazeBoardY+startCharacterY-characterY),
       runOnJS(setCharacterX)(startCharacterX),
-      runOnJS(setCharacterY)(startCharacterY)
+      runOnJS(setCharacterY)(startCharacterY),
+    ]);
+  }
+
+  const doubleTapActive = async () => {
+    await Promise.all([
+      runOnJS(setScreenFixed)(!screenFixed),
+      runOnJS(setMoveCount)(moveCount + 1)
     ]);
   }
 
   const onDoubleTap = useAnimatedGestureHandler({
     onActive: () => {
-      if(screenFixed){
-        runOnJS(releaseFixed)();
-      }
-
+      if(screenFixed) runOnJS(releaseFixed)();
+      
+      console.log(`screenFixed: ${!screenFixed}`);
       runOnJS(setScreenFixed)(!screenFixed);
-      console.log(`screenFixed: ${screenFixed}`);
 
+      console.log(`move #${moveCount + 1}`);
       runOnJS(setMoveCount)(moveCount + 1);
-      console.log(`move #${moveCount}`);
     },
   });
 
@@ -67,31 +73,31 @@ const MazePage = ({ stage }) => {
     onEnd: (event, context) => {
       if(Math.abs(event.translationX) > Math.abs(event.translationY)){
         if(event.translationX < 0){
-          console.log('left');
-          if(screenFixed) runOnJS(setCharacterX)(characterX - 45);
-          else runOnJS(setMazeBoardX)(mazeBoardX + 45);
+          console.log('moveDirection: left');
+          if(screenFixed) runOnJS(setCharacterX)(characterX - gridSize);
+          else runOnJS(setMazeBoardX)(mazeBoardX + gridSize);
         }
         if(event.translationX > 0){
-          console.log('right');
-          if(screenFixed) runOnJS(setCharacterX)(characterX + 45);
-          else runOnJS(setMazeBoardX)(mazeBoardX - 45);
+          console.log('moveDirection: right');
+          if(screenFixed) runOnJS(setCharacterX)(characterX + gridSize);
+          else runOnJS(setMazeBoardX)(mazeBoardX - gridSize);
         }
       }
       if(Math.abs(event.translationX) < Math.abs(event.translationY)){
         if(event.translationY < 0){
-          console.log('up');
-          if(screenFixed) runOnJS(setCharacterY)(characterY - 45);
-          else runOnJS(setMazeBoardY)(mazeBoardY + 45);
+          console.log('moveDirection: up');
+          if(screenFixed) runOnJS(setCharacterY)(characterY - gridSize);
+          else runOnJS(setMazeBoardY)(mazeBoardY + gridSize);
         }
         if(event.translationY > 0){
-          console.log('down');
-          if(screenFixed) runOnJS(setCharacterY)(characterY + 45);
-          else runOnJS(setMazeBoardY)(mazeBoardY - 45);
+          console.log('moveDirection: down');
+          if(screenFixed) runOnJS(setCharacterY)(characterY + gridSize);
+          else runOnJS(setMazeBoardY)(mazeBoardY - gridSize);
         }
       }
 
+      console.log(`move #${moveCount + 1}`);
       runOnJS(setMoveCount)(moveCount + 1);
-      console.log(`move #${moveCount}`);
 
       context.mazeBoardX = mazeBoardX;
       context.mazeBoardY = mazeBoardY;

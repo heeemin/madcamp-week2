@@ -43,7 +43,7 @@ const startMazeBoardY = 0;
 
 const Mazeboard = ({ stage, screenFixed, mazeBoardX, mazeBoardY /*containerStyle, onDrag, onDoubleTap*/ }) => {
   const source = '../../../assets/maze/Mazeboard' + String(stage).padStart(2, '0') + '.png';
-  console.log(source);
+  //console.log(source);
 /*
   const [positionX, setPositionX] = useState(startMazeBoardX);
   const [positionY, setPositionY] = useState(startMazeBoardY);
