@@ -11,9 +11,14 @@ const Info = ({ userId, navigation }) => {
   const [time, setTime] = useState('')
   const [id, setId] = useState('')
   const [ID, setID] = useState('')
+
   const API_URL = 'http://143.248.194.161:5000'
   // 유저 데이터 가져오기
   useEffect(() => {
+    const NavLogin = () => {
+      setIsAuthenticated(false)
+      navigation.replace('LoginPage')
+    }
     const fetchData = async () => {
       try {
         const token = await AsyncStorage.getItem('jwtToken')
@@ -96,6 +101,7 @@ const Info = ({ userId, navigation }) => {
           </TextInput>
 
           <Button title="변경사항 저장하기" onPress={updateUserData} />
+          <Button title="Back" onPress={NavLogin} />
         </>
       ) : (
         <Text>Loading...</Text>
