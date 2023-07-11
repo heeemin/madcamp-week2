@@ -13,6 +13,8 @@ import Animated, {
 
 const AnimatedView = Animated.createAnimatedComponent(View);
 
+const gridSize = 46;
+
 const images = {
   image01: require('../../../assets/maze/Mazeboard01.png'),
   image02: require('../../../assets/maze/Mazeboard02.png'),
@@ -38,11 +40,31 @@ const images = {
   imageHD: require('../../../assets/maze/Mazeboard21.png')
 };
 
-const startMazeBoardX = 0;
-const startMazeBoardY = 0;
+const Mazedatas = {
+  Mazedata01: require('../../../data/Mazedata01.json'),
+  Mazedata02: require('../../../data/Mazedata02.json'),
+  Mazedata03: require('../../../data/Mazedata03.json'),
+  Mazedata04: require('../../../data/Mazedata04.json'),
+  Mazedata05: require('../../../data/Mazedata05.json'),
+  Mazedata06: require('../../../data/Mazedata06.json'),
+  Mazedata07: require('../../../data/Mazedata07.json'),
+  Mazedata08: require('../../../data/Mazedata08.json'),
+  Mazedata09: require('../../../data/Mazedata09.json'),
+  Mazedata10: require('../../../data/Mazedata10.json'),
+  Mazedata11: require('../../../data/Mazedata11.json'),
+  Mazedata12: require('../../../data/Mazedata12.json'),
+  Mazedata13: require('../../../data/Mazedata13.json'),
+  Mazedata14: require('../../../data/Mazedata14.json'),
+  Mazedata15: require('../../../data/Mazedata15.json'),
+  Mazedata16: require('../../../data/Mazedata16.json'),
+  Mazedata17: require('../../../data/Mazedata17.json'),
+  Mazedata18: require('../../../data/Mazedata18.json'),
+  Mazedata19: require('../../../data/Mazedata19.json'),
+  Mazedata20: require('../../../data/Mazedata20.json'),
+  Mazedata21: require('../../../data/Mazedata21.json')
+};
 
-const Mazeboard = ({ stage, screenFixed, mazeBoardX, mazeBoardY /*containerStyle, onDrag, onDoubleTap*/ }) => {
-  const source = '../../../assets/maze/Mazeboard' + String(stage).padStart(2, '0') + '.png';
+const Mazeboard = ({ stage, mazeBoardX, mazeBoardY /*containerStyle, onDrag, onDoubleTap*/ }) => {
   //console.log(source);
 /*
   const [positionX, setPositionX] = useState(startMazeBoardX);
@@ -104,13 +126,17 @@ const Mazeboard = ({ stage, screenFixed, mazeBoardX, mazeBoardY /*containerStyle
     animatedValue.value = withTiming(1, { duration: 1000 });
   }, []);
 */
+  const jsonData = Mazedatas[`Mazedata${String(stage).padStart(2, '0')}`];
+
   return (
     <Image
       style={[
         styles.maze,
         {
-          left: mazeBoardX,
-          top: mazeBoardY
+          width: gridSize * jsonData.mazeBoardSizeY,
+          height: gridSize * jsonData.mazeBoardSizeX,
+          left: gridSize * (3 - mazeBoardY),
+          top: gridSize * (3 - mazeBoardX)
         }
         /*animationStyle*/]}
       source={images[`image${String(stage).padStart(2, '0')}`]}
@@ -120,10 +146,7 @@ const Mazeboard = ({ stage, screenFixed, mazeBoardX, mazeBoardY /*containerStyle
 
 const styles = StyleSheet.create({
   maze: {
-    width: 320,
-    height: 320,
-    position: 'absolute',
-
+    position: 'absolute'
   }
 });
 
