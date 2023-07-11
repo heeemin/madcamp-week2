@@ -64,10 +64,12 @@ const MazePage = ({ stage }) => {
   const [moveCount, setMoveCount] = useState(0);
   const [screenFixed, setScreenFixed] = useState(false); 
 
+  const [mazeSolve, setMazeSolve] = useState(false);
+
   const releaseFixed = async () => {
     await Promise.all([
-      runOnJS(setMazeBoardX)(mazeBoardX - characterX),
-      runOnJS(setMazeBoardY)(mazeBoardY - characterY),
+      runOnJS(setMazeBoardX)(mazeBoardX + characterX),
+      runOnJS(setMazeBoardY)(mazeBoardY + characterY),
       runOnJS(setCharacterX)(0),
       runOnJS(setCharacterY)(0)
     ]);
@@ -75,13 +77,13 @@ const MazePage = ({ stage }) => {
 
   const onDoubleTap = useAnimatedGestureHandler({
     onActive: () => {
-      if(screenFixed) runOnJS(releaseFixed)();
-      
-      console.log(`screenFixed: ${!screenFixed}`);
-      runOnJS(setScreenFixed)(!screenFixed);
-
       console.log(`move #${moveCount + 1}`);
       runOnJS(setMoveCount)(moveCount + 1);
+
+      if(screenFixed) runOnJS(releaseFixed)();
+      
+      console.log(`mazeBoard: ${mazeBoardX} ${mazeBoardY} / character: ${characterX} ${characterY} / fix: ${!screenFixed}`);
+      runOnJS(setScreenFixed)(!screenFixed);
     },
   });
 
@@ -93,33 +95,80 @@ const MazePage = ({ stage }) => {
       context.characterY = characterY;
     },
     onEnd: (event, context) => {
+      console.log(`move #${moveCount + 1}`);
+      runOnJS(setMoveCount)(moveCount + 1);
+
       if(Math.abs(event.translationX) < Math.abs(event.translationY)){
-        if(event.translationY < 0 && !jsonData.MazeBoardHorizontalWall[mazeBoardX - characterX][mazeBoardY - characterY]){
-          console.log('moveDirection: up');
-          if(screenFixed) runOnJS(setCharacterX)((characterX + 4) % 7 - 3);
-          else runOnJS(setMazeBoardX)(mazeBoardX - 1);
+        if(event.translationY < 0 && !jsonData.MazeBoardHorizontalWall[mazeBoardX + characterX][mazeBoardY + characterY]){
+          if(screenFixed){
+            const nextCharacterX = (characterX + 9) % 7 - 3;
+            if(jsonData.MazeBoardGrid[mazeBoardX + nextCharacterX][mazeBoardY + characterY]
+              && !jsonData.MazeBoardHorizontalWall[mazeBoardX + nextCharacterX + 1][mazeBoardY + characterY]){
+              console.log(`mazeBoard: ${mazeBoardX} ${mazeBoardY} / character: ${nextCharacterX} ${characterY} / dir: up`);
+              runOnJS(setCharacterX)(nextCharacterX);
+            }
+          }
+          else{
+            const nextMazeBoardX = mazeBoardX - 1;
+
+            console.log(`mazeBoard: ${nextMazeBoardX} ${mazeBoardY} / character: ${characterX} ${characterY} / dir: up`);
+            runOnJS(setMazeBoardX)(nextMazeBoardX);
+          }
         }
-        if(event.translationY > 0 && !jsonData.MazeBoardHorizontalWall[mazeBoardX - characterX + 1][mazeBoardY - characterY]){
-          console.log('moveDirection: down');
-          if(screenFixed) runOnJS(setCharacterX)((characterX + 9) % 7 - 3);
-          else runOnJS(setMazeBoardX)(mazeBoardX + 1);
+        if(event.translationY > 0 && !jsonData.MazeBoardHorizontalWall[mazeBoardX + characterX + 1][mazeBoardY + characterY]){
+          if(screenFixed){
+            const nextCharacterX = (characterX + 4) % 7 - 3;
+            
+            if(jsonData.MazeBoardGrid[mazeBoardX + nextCharacterX][mazeBoardY + characterY]
+              && !jsonData.MazeBoardHorizontalWall[mazeBoardX + nextCharacterX][mazeBoardY + characterY]){
+                console.log(`mazeBoard: ${mazeBoardX} ${mazeBoardY} / character: ${nextCharacterX} ${characterY} / dir: down`);
+              runOnJS(setCharacterX)(nextCharacterX);
+            }
+          }
+          else{
+            const nextMazeBoardX = mazeBoardX + 1;
+
+            console.log(`mazeBoard: ${nextMazeBoardX} ${mazeBoardY} / character: ${characterX} ${characterY} / dir: down`);
+            runOnJS(setMazeBoardX)(nextMazeBoardX);
+          }
         }
       }
       if(Math.abs(event.translationX) > Math.abs(event.translationY)){
-        if(event.translationX < 0 && !jsonData.MazeBoardVerticalWall[mazeBoardX - characterX][mazeBoardY - characterY]){
-          console.log('moveDirection: left');
-          if(screenFixed) runOnJS(setCharacterY)((characterY + 9) % 7 - 3);
-          else runOnJS(setMazeBoardY)(mazeBoardY - 1);
+        if(event.translationX < 0 && !jsonData.MazeBoardVerticalWall[mazeBoardX + characterX][mazeBoardY + characterY]){
+          if(screenFixed){
+            const nextCharacterY = (characterY + 9) % 7 - 3;
+            
+            if(jsonData.MazeBoardGrid[mazeBoardX + characterX][mazeBoardY + nextCharacterY]
+              && !jsonData.MazeBoardVerticalWall[mazeBoardX + characterX][mazeBoardY + nextCharacterY + 1]){
+                console.log(`mazeBoard: ${mazeBoardX} ${mazeBoardY} / character: ${characterX} ${nextCharacterY} / dir: left`);
+              runOnJS(setCharacterY)(nextCharacterY);
+            }
+          }
+          else{
+            const nextMazeBoardY = mazeBoardY - 1;
+
+            console.log(`mazeBoard: ${mazeBoardX} ${nextMazeBoardY} / character: ${characterX} ${characterY} / dir: left`);
+            runOnJS(setMazeBoardY)(nextMazeBoardY);
+          }
         }
-        if(event.translationX > 0 && !jsonData.MazeBoardVerticalWall[mazeBoardX - characterX][mazeBoardY - characterY + 1]){
-          console.log('moveDirection: right');
-          if(screenFixed) runOnJS(setCharacterY)((characterY + 4) % 7 - 3);
-          else runOnJS(setMazeBoardY)(mazeBoardY + 1);
+        if(event.translationX > 0 && !jsonData.MazeBoardVerticalWall[mazeBoardX + characterX][mazeBoardY + characterY + 1]){
+          if(screenFixed){
+            const nextCharacterY = (characterY + 4) % 7 - 3;
+
+            if(jsonData.MazeBoardGrid[mazeBoardX + characterX][mazeBoardY + nextCharacterY]
+              && !jsonData.MazeBoardVerticalWall[mazeBoardX + characterX][mazeBoardY + nextCharacterY]){
+                console.log(`mazeBoard: ${mazeBoardX} ${mazeBoardY} / character: ${characterX} ${nextCharacterY} / dir: right`);
+              runOnJS(setCharacterY)(nextCharacterY);
+            }
+          }
+          else{
+            const nextMazeBoardY = mazeBoardY + 1;
+
+            console.log(`mazeBoard: ${mazeBoardX} ${nextMazeBoardY} / character: ${characterX} ${characterY} / dir: right`);
+            runOnJS(setMazeBoardY)(nextMazeBoardY);
+          }
         }
       }
-
-      console.log(`move #${moveCount + 1}`);
-      runOnJS(setMoveCount)(moveCount + 1);
 
       context.mazeBoardX = mazeBoardX;
       context.mazeBoardY = mazeBoardY;
