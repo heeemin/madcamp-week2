@@ -12,45 +12,39 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated';
 
-import Mazeboard from '../../layouts/Mazeboard';
+import MazeBoard from '../../layouts/MazeBoard';
 import Character from '../../elements/Character';
 
 const AnimatedView = Animated.createAnimatedComponent(View);
 const AnimatedText = Animated.createAnimatedComponent(Text);
 
-/*
-const startMazeBoardX = gridSize * 0;
-const startMazeBoardY = gridSize * -4;
-const startCharacterX = gridSize * 3.5 - 40 * 0.5;
-const startCharacterY = gridSize * 3.5 - 40 * 0.5;
-*/
-const Mazedatas = {
-  Mazedata01: require('../../../data/Mazedata01.json'),
-  Mazedata02: require('../../../data/Mazedata02.json'),
-  Mazedata03: require('../../../data/Mazedata03.json'),
-  Mazedata04: require('../../../data/Mazedata04.json'),
-  Mazedata05: require('../../../data/Mazedata05.json'),
-  Mazedata06: require('../../../data/Mazedata06.json'),
-  Mazedata07: require('../../../data/Mazedata07.json'),
-  Mazedata08: require('../../../data/Mazedata08.json'),
-  Mazedata09: require('../../../data/Mazedata09.json'),
-  Mazedata10: require('../../../data/Mazedata10.json'),
-  Mazedata11: require('../../../data/Mazedata11.json'),
-  Mazedata12: require('../../../data/Mazedata12.json'),
-  Mazedata13: require('../../../data/Mazedata13.json'),
-  Mazedata14: require('../../../data/Mazedata14.json'),
-  Mazedata15: require('../../../data/Mazedata15.json'),
-  Mazedata16: require('../../../data/Mazedata16.json'),
-  Mazedata17: require('../../../data/Mazedata17.json'),
-  Mazedata18: require('../../../data/Mazedata18.json'),
-  Mazedata19: require('../../../data/Mazedata19.json'),
-  Mazedata20: require('../../../data/Mazedata20.json'),
-  Mazedata21: require('../../../data/Mazedata21.json')
+const mazeDatas = {
+  mazeData01: require('../../../data/mazeData01.json'),
+  mazeData02: require('../../../data/mazeData02.json'),
+  mazeData03: require('../../../data/mazeData03.json'),
+  mazeData04: require('../../../data/mazeData04.json'),
+  mazeData05: require('../../../data/mazeData05.json'),
+  mazeData06: require('../../../data/mazeData06.json'),
+  mazeData07: require('../../../data/mazeData07.json'),
+  mazeData08: require('../../../data/mazeData08.json'),
+  mazeData09: require('../../../data/mazeData09.json'),
+  mazeData10: require('../../../data/mazeData10.json'),
+  mazeData11: require('../../../data/mazeData11.json'),
+  mazeData12: require('../../../data/mazeData12.json'),
+  mazeData13: require('../../../data/mazeData13.json'),
+  mazeData14: require('../../../data/mazeData14.json'),
+  mazeData15: require('../../../data/mazeData15.json'),
+  mazeData16: require('../../../data/mazeData16.json'),
+  mazeData17: require('../../../data/mazeData17.json'),
+  mazeData18: require('../../../data/mazeData18.json'),
+  mazeData19: require('../../../data/mazeData19.json'),
+  mazeData20: require('../../../data/mazeData20.json'),
+  mazeData21: require('../../../data/mazeData21.json')
 };
 
 const MazePage = ({ stage }) => {
   //const source = '../../../data/Mazedata' + String(stage).padStart(2, '0') + '.json';
-  const jsonData = Mazedatas[`Mazedata${String(stage).padStart(2, '0')}`];
+  const jsonData = mazeDatas[`mazeData${String(stage).padStart(2, '0')}`];
   
   //console.log(jsonData.stage);
 
@@ -99,11 +93,11 @@ const MazePage = ({ stage }) => {
       runOnJS(setMoveCount)(moveCount + 1);
 
       if(Math.abs(event.translationX) < Math.abs(event.translationY)){
-        if(event.translationY < 0 && !jsonData.MazeBoardHorizontalWall[mazeBoardX + characterX][mazeBoardY + characterY]){
+        if(event.translationY < 0 && !jsonData.mazeBoardHorizontalWall[mazeBoardX + characterX][mazeBoardY + characterY]){
           if(screenFixed){
             const nextCharacterX = (characterX + 9) % 7 - 3;
-            if(jsonData.MazeBoardGrid[mazeBoardX + nextCharacterX][mazeBoardY + characterY]
-              && !jsonData.MazeBoardHorizontalWall[mazeBoardX + nextCharacterX + 1][mazeBoardY + characterY]){
+            if(jsonData.mazeBoardGrid[mazeBoardX + nextCharacterX][mazeBoardY + characterY]
+              && !jsonData.mazeBoardHorizontalWall[mazeBoardX + nextCharacterX + 1][mazeBoardY + characterY]){
               console.log(`mazeBoard: ${mazeBoardX} ${mazeBoardY} / character: ${nextCharacterX} ${characterY} / dir: up`);
               runOnJS(setCharacterX)(nextCharacterX);
             }
@@ -115,12 +109,12 @@ const MazePage = ({ stage }) => {
             runOnJS(setMazeBoardX)(nextMazeBoardX);
           }
         }
-        if(event.translationY > 0 && !jsonData.MazeBoardHorizontalWall[mazeBoardX + characterX + 1][mazeBoardY + characterY]){
+        if(event.translationY > 0 && !jsonData.mazeBoardHorizontalWall[mazeBoardX + characterX + 1][mazeBoardY + characterY]){
           if(screenFixed){
             const nextCharacterX = (characterX + 4) % 7 - 3;
             
-            if(jsonData.MazeBoardGrid[mazeBoardX + nextCharacterX][mazeBoardY + characterY]
-              && !jsonData.MazeBoardHorizontalWall[mazeBoardX + nextCharacterX][mazeBoardY + characterY]){
+            if(jsonData.mazeBoardGrid[mazeBoardX + nextCharacterX][mazeBoardY + characterY]
+              && !jsonData.mazeBoardHorizontalWall[mazeBoardX + nextCharacterX][mazeBoardY + characterY]){
                 console.log(`mazeBoard: ${mazeBoardX} ${mazeBoardY} / character: ${nextCharacterX} ${characterY} / dir: down`);
               runOnJS(setCharacterX)(nextCharacterX);
             }
@@ -134,12 +128,12 @@ const MazePage = ({ stage }) => {
         }
       }
       if(Math.abs(event.translationX) > Math.abs(event.translationY)){
-        if(event.translationX < 0 && !jsonData.MazeBoardVerticalWall[mazeBoardX + characterX][mazeBoardY + characterY]){
+        if(event.translationX < 0 && !jsonData.mazeBoardVerticalWall[mazeBoardX + characterX][mazeBoardY + characterY]){
           if(screenFixed){
             const nextCharacterY = (characterY + 9) % 7 - 3;
             
-            if(jsonData.MazeBoardGrid[mazeBoardX + characterX][mazeBoardY + nextCharacterY]
-              && !jsonData.MazeBoardVerticalWall[mazeBoardX + characterX][mazeBoardY + nextCharacterY + 1]){
+            if(jsonData.mazeBoardGrid[mazeBoardX + characterX][mazeBoardY + nextCharacterY]
+              && !jsonData.mazeBoardVerticalWall[mazeBoardX + characterX][mazeBoardY + nextCharacterY + 1]){
                 console.log(`mazeBoard: ${mazeBoardX} ${mazeBoardY} / character: ${characterX} ${nextCharacterY} / dir: left`);
               runOnJS(setCharacterY)(nextCharacterY);
             }
@@ -151,12 +145,12 @@ const MazePage = ({ stage }) => {
             runOnJS(setMazeBoardY)(nextMazeBoardY);
           }
         }
-        if(event.translationX > 0 && !jsonData.MazeBoardVerticalWall[mazeBoardX + characterX][mazeBoardY + characterY + 1]){
+        if(event.translationX > 0 && !jsonData.mazeBoardVerticalWall[mazeBoardX + characterX][mazeBoardY + characterY + 1]){
           if(screenFixed){
             const nextCharacterY = (characterY + 4) % 7 - 3;
 
-            if(jsonData.MazeBoardGrid[mazeBoardX + characterX][mazeBoardY + nextCharacterY]
-              && !jsonData.MazeBoardVerticalWall[mazeBoardX + characterX][mazeBoardY + nextCharacterY]){
+            if(jsonData.mazeBoardGrid[mazeBoardX + characterX][mazeBoardY + nextCharacterY]
+              && !jsonData.mazeBoardVerticalWall[mazeBoardX + characterX][mazeBoardY + nextCharacterY]){
                 console.log(`mazeBoard: ${mazeBoardX} ${mazeBoardY} / character: ${characterX} ${nextCharacterY} / dir: right`);
               runOnJS(setCharacterY)(nextCharacterY);
             }
@@ -189,8 +183,8 @@ const MazePage = ({ stage }) => {
             <AnimatedView style={styles.container}>
               <Text>{`This is MazePage No.${stage}`}</Text>
               <Text>{`You moved ${moveCount} times.`}</Text>
-              <AnimatedView style={styles.mazeboard}>
-                <Mazeboard
+              <AnimatedView style={styles.mazeBoard}>
+                <MazeBoard
                   stage={stage}
                   //containerStyle={containerStyle}
                   screenFixed={screenFixed}
@@ -225,7 +219,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  mazeboard: {
+  mazeBoard: {
     width: 322,
     height: 322,
     overflow: 'hidden',

@@ -16,55 +16,55 @@ const AnimatedView = Animated.createAnimatedComponent(View);
 const gridSize = 46;
 
 const images = {
-  image01: require('../../../assets/maze/Mazeboard01.png'),
-  image02: require('../../../assets/maze/Mazeboard02.png'),
-  image03: require('../../../assets/maze/Mazeboard03.png'),
-  image04: require('../../../assets/maze/Mazeboard04.png'),
-  image05: require('../../../assets/maze/Mazeboard05.png'),
-  image06: require('../../../assets/maze/Mazeboard06.png'),
-  image07: require('../../../assets/maze/Mazeboard07.png'),
-  image08: require('../../../assets/maze/Mazeboard08.png'),
-  image09: require('../../../assets/maze/Mazeboard09.png'),
-  image10: require('../../../assets/maze/Mazeboard10.png'),
-  image11: require('../../../assets/maze/Mazeboard11.png'),
-  image12: require('../../../assets/maze/Mazeboard12.png'),
-  image13: require('../../../assets/maze/Mazeboard13.png'),
-  image14: require('../../../assets/maze/Mazeboard14.png'),
-  image15: require('../../../assets/maze/Mazeboard15.png'),
-  image16: require('../../../assets/maze/Mazeboard16.png'),
-  image17: require('../../../assets/maze/Mazeboard17.png'),
-  image18: require('../../../assets/maze/Mazeboard18.png'),
-  image19: require('../../../assets/maze/Mazeboard19.png'),
-  image20: require('../../../assets/maze/Mazeboard20.png'),
-  image21: require('../../../assets/maze/Mazeboard21.png'),
-  imageHD: require('../../../assets/maze/Mazeboard21.png')
+  image01: require('../../../assets/maze/mazeBoard01.png'),
+  image02: require('../../../assets/maze/mazeBoard02.png'),
+  image03: require('../../../assets/maze/mazeBoard03.png'),
+  image04: require('../../../assets/maze/mazeBoard04.png'),
+  image05: require('../../../assets/maze/mazeBoard05.png'),
+  image06: require('../../../assets/maze/mazeBoard06.png'),
+  image07: require('../../../assets/maze/mazeBoard07.png'),
+  image08: require('../../../assets/maze/mazeBoard08.png'),
+  image09: require('../../../assets/maze/mazeBoard09.png'),
+  image10: require('../../../assets/maze/mazeBoard10.png'),
+  image11: require('../../../assets/maze/mazeBoard11.png'),
+  image12: require('../../../assets/maze/mazeBoard12.png'),
+  image13: require('../../../assets/maze/mazeBoard13.png'),
+  image14: require('../../../assets/maze/mazeBoard14.png'),
+  image15: require('../../../assets/maze/mazeBoard15.png'),
+  image16: require('../../../assets/maze/mazeBoard16.png'),
+  image17: require('../../../assets/maze/mazeBoard17.png'),
+  image18: require('../../../assets/maze/mazeBoard18.png'),
+  image19: require('../../../assets/maze/mazeBoard19.png'),
+  image20: require('../../../assets/maze/mazeBoard20.png'),
+  image21: require('../../../assets/maze/mazeBoard21.png'),
+  imageHD: require('../../../assets/maze/mazeBoard21.png')
 };
 
-const Mazedatas = {
-  Mazedata01: require('../../../data/Mazedata01.json'),
-  Mazedata02: require('../../../data/Mazedata02.json'),
-  Mazedata03: require('../../../data/Mazedata03.json'),
-  Mazedata04: require('../../../data/Mazedata04.json'),
-  Mazedata05: require('../../../data/Mazedata05.json'),
-  Mazedata06: require('../../../data/Mazedata06.json'),
-  Mazedata07: require('../../../data/Mazedata07.json'),
-  Mazedata08: require('../../../data/Mazedata08.json'),
-  Mazedata09: require('../../../data/Mazedata09.json'),
-  Mazedata10: require('../../../data/Mazedata10.json'),
-  Mazedata11: require('../../../data/Mazedata11.json'),
-  Mazedata12: require('../../../data/Mazedata12.json'),
-  Mazedata13: require('../../../data/Mazedata13.json'),
-  Mazedata14: require('../../../data/Mazedata14.json'),
-  Mazedata15: require('../../../data/Mazedata15.json'),
-  Mazedata16: require('../../../data/Mazedata16.json'),
-  Mazedata17: require('../../../data/Mazedata17.json'),
-  Mazedata18: require('../../../data/Mazedata18.json'),
-  Mazedata19: require('../../../data/Mazedata19.json'),
-  Mazedata20: require('../../../data/Mazedata20.json'),
-  Mazedata21: require('../../../data/Mazedata21.json')
+const mazeDatas = {
+  mazeData01: require('../../../data/mazeData01.json'),
+  mazeData02: require('../../../data/mazeData02.json'),
+  mazeData03: require('../../../data/mazeData03.json'),
+  mazeData04: require('../../../data/mazeData04.json'),
+  mazeData05: require('../../../data/mazeData05.json'),
+  mazeData06: require('../../../data/mazeData06.json'),
+  mazeData07: require('../../../data/mazeData07.json'),
+  mazeData08: require('../../../data/mazeData08.json'),
+  mazeData09: require('../../../data/mazeData09.json'),
+  mazeData10: require('../../../data/mazeData10.json'),
+  mazeData11: require('../../../data/mazeData11.json'),
+  mazeData12: require('../../../data/mazeData12.json'),
+  mazeData13: require('../../../data/mazeData13.json'),
+  mazeData14: require('../../../data/mazeData14.json'),
+  mazeData15: require('../../../data/mazeData15.json'),
+  mazeData16: require('../../../data/mazeData16.json'),
+  mazeData17: require('../../../data/mazeData17.json'),
+  mazeData18: require('../../../data/mazeData18.json'),
+  mazeData19: require('../../../data/mazeData19.json'),
+  mazeData20: require('../../../data/mazeData20.json'),
+  mazeData21: require('../../../data/mazeData21.json')
 };
 
-const Mazeboard = ({ stage, mazeBoardX, mazeBoardY /*containerStyle, onDrag, onDoubleTap*/ }) => {
+const MazeBoard = ({ stage, mazeBoardX, mazeBoardY /*containerStyle, onDrag, onDoubleTap*/ }) => {
   //console.log(source);
 /*
   const [positionX, setPositionX] = useState(startMazeBoardX);
@@ -126,7 +126,7 @@ const Mazeboard = ({ stage, mazeBoardX, mazeBoardY /*containerStyle, onDrag, onD
     animatedValue.value = withTiming(1, { duration: 1000 });
   }, []);
 */
-  const jsonData = Mazedatas[`Mazedata${String(stage).padStart(2, '0')}`];
+  const jsonData = mazeDatas[`mazeData${String(stage).padStart(2, '0')}`];
 
   return (
     <Image
@@ -150,4 +150,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Mazeboard;
+export default MazeBoard;

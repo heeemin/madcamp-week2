@@ -1,1 +1,1 @@
-export { default } from './Mazeboard';
+export { default } from './MazeBoard';
