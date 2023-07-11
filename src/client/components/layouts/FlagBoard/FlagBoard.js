@@ -18,22 +18,15 @@ const gridSize = 46;
 const flagSize = 38;
 
 const FlagBoard = ({ mazeBoardSizeX, mazeBoardSizeY, mazeFlagGrid, mazeBoardX, mazeBoardY }) => {
-  const redCircle = require('../../../assets/character/circle_red.png');
-  const blueCircle = require('../../../assets/character/circle_blue.png');
-
-  console.log(mazeFlagGrid);
-  console.log(mazeFlagGrid.length);
-  console.log(mazeFlagGrid[0].length);
-  console.log(mazeFlagGrid[10][15]);
-
   const flagList = []
+
   for (let i = 0; i < mazeBoardSizeX; i++) {
     for (let j = 0; j < mazeBoardSizeY; j++) {
       if(!mazeFlagGrid[i][j]) continue;
 
-      console.log(`${i} ${j}`);
-      console.log(`left: ${gridSize * (j - mazeBoardY + 0.5) - flagSize * 0.5}`);
-      console.log(`right: ${gridSize * (i - mazeBoardX + 0.5) - flagSize * 0.5}`);
+      //console.log(`${i} ${j}`);
+      //console.log(`left: ${gridSize * (j - mazeBoardY + 0.5) - flagSize * 0.5}`);
+      //console.log(`right: ${gridSize * (i - mazeBoardX + 0.5) - flagSize * 0.5}`);
 
       flagList.push(
         <Flag

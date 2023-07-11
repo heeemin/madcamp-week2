@@ -15,7 +15,6 @@ import Animated, {
 import MazeBoard from '../../layouts/MazeBoard';
 import Character from '../../elements/Character';
 import FlagBoard from '../../layouts/FlagBoard';
-import Flag from '../../elements/Flag';
 
 const AnimatedView = Animated.createAnimatedComponent(View);
 const AnimatedText = Animated.createAnimatedComponent(Text);
@@ -48,9 +47,9 @@ const MazePage = ({ stage }) => {
   //const source = '../../../data/Mazedata' + String(stage).padStart(2, '0') + '.json';
   const jsonData = mazeDatas[`mazeData${String(stage).padStart(2, '0')}`];
   
-  console.log('stage' + jsonData.stage);
-  console.log(jsonData.mazeFlagGrid.length);
-  console.log(jsonData.mazeFlagGrid[0].length);
+  //console.log('stage' + jsonData.stage);
+  //console.log(jsonData.mazeFlagGrid.length);
+  //console.log(jsonData.mazeFlagGrid[0].length);
 
   //const translateX = useSharedValue(0);
   //const translateY = useSharedValue(0);
@@ -59,11 +58,14 @@ const MazePage = ({ stage }) => {
   const [characterX, setCharacterX] = useState(0);
   const [characterY, setCharacterY] = useState(0);
 
-  const [moveCount, setMoveCount] = useState(0);
-  const [screenFixed, setScreenFixed] = useState(false); 
+  const [mazeBoardVerticalWall, setMazeBoardVerticalWall] = useState(jsonData.mazeBoardVerticalWall);
+  const [mazeBoardHorizontalWall, setMazeBoardHorizontalWall] = useState(jsonData.mazeBoardHorizontalWall);
 
   const [mazeFlagCount, setMazeFlagCount] = useState(jsonData.mazeFlagCount);
   const [mazeFlagGrid, setMazeFlagGrid] = useState(jsonData.mazeFlagGrid);
+
+  const [moveCount, setMoveCount] = useState(0);
+  const [screenFixed, setScreenFixed] = useState(false); 
 
   const [mazeSolved, setMazeSolved] = useState(false);
 
@@ -99,12 +101,14 @@ const MazePage = ({ stage }) => {
 
   const onDrag = useAnimatedGestureHandler({
     onStart: (event, context) => {
+      if(mazeSolved) return;
+
       context.mazeBoardX = mazeBoardX;
       context.mazeBoardY = mazeBoardY;
       context.characterX = characterX;
       context.characterY = characterY;
     },
-    onEnd: (event, context) => {
+    onEnd: (event, context) => { 
       console.log(`move #${moveCount + 1}`);
       runOnJS(setMoveCount)(moveCount + 1);
 
@@ -209,21 +213,18 @@ const MazePage = ({ stage }) => {
                 */
 
   const renderPage = () => {
-    if(mazeSolved) {
-      return <Text>Congratulations!</Text>;
-    }
+    if(mazeSolved) return <Text>Congratulations!</Text>;
     return (
       <AnimatedView style={styles.mazeBoard}>
         <MazeBoard
           stage={stage}
-          //containerStyle={containerStyle}
-          screenFixed={screenFixed}
+          mazeBoardSizeX={jsonData.mazeBoardSizeX}
+          mazeBoardSizeY={jsonData.mazeBoardSizeY}
+          mazeBoardGrid={jsonData.mazeBoardGrid}
+          mazeBoardVerticalWall={mazeBoardVerticalWall}
+          mazeBoardHorizontalWall={mazeBoardHorizontalWall}
           mazeBoardX={mazeBoardX}
           mazeBoardY={mazeBoardY}
-          //onDrag={onDrag}
-          //onDoubleTap={onDoubleTap}
-          //scaleImage={scaleImage}
-          //imageSize={imageSize}
         />
         <FlagBoard
           mazeBoardSizeX={jsonData.mazeBoardSizeX}

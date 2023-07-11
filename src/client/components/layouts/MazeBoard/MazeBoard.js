@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { View, ImageBackground, Image, StyleSheet } from 'react-native';
 import { PanGestureHandler, TapGestureHandler, State } from 'react-native-gesture-handler';
 import Animated, {
@@ -10,6 +10,10 @@ import Animated, {
   useAnimatedGestureHandler,
   withSpring,
 } from 'react-native-reanimated';
+
+import Cell from '../../elements/Cell';
+import VerticalWall from '../../elements/VerticalWall';
+import HorizontalWall from '../../elements/HorizontalWall';
 
 const AnimatedView = Animated.createAnimatedComponent(View);
 
@@ -64,83 +68,71 @@ const mazeDatas = {
   mazeData21: require('../../../data/mazeData21.json')
 };
 
-const MazeBoard = ({ stage, mazeBoardX, mazeBoardY /*containerStyle, onDrag, onDoubleTap*/ }) => {
-  //console.log(source);
-/*
-  const [positionX, setPositionX] = useState(startMazeBoardX);
-  const [positionY, setPositionY] = useState(startMazeBoardY);
+const MazeBoard = ({ stage, mazeBoardSizeX, mazeBoardSizeY, mazeBoardGrid, mazeBoardVerticalWall, mazeBoardHorizontalWall, mazeBoardX, mazeBoardY }) => {
+  const wallList = []
+  for (let i = 0; i < mazeBoardSizeX; i++) {
+    for (let j = 0; j < mazeBoardSizeY + 1; j++) {
+      if(mazeBoardVerticalWall[i][j] < 2) continue;
 
-  const animatedValue = useSharedValue(0);
+      //console.log(`${i} ${j}`);
+      //console.log(`left: ${gridSize * (j - mazeBoardY) - 2}`);
+      //console.log(`right: ${gridSize * (i - mazeBoardX) - 2}`);
 
-  const animationStyle = useAnimatedStyle(() => {
-    const left = interpolate(animatedValue.value,
-      [0, 1],
-      [positionX, mazeBoardX],
-      Extrapolate.CLAMP
-    );
-    const top = interpolate(animatedValue.value,
-      [0, 1],
-      [positionY, mazeBoardY],
-      Extrapolate.CLAMP
-    );
-  
-    return {
-      left,
-      top
-    };
-  });
+      wallList.push(
+        <VerticalWall
+          type={mazeBoardVerticalWall[i][j]}
+          wallX={i}
+          wallY={j}
+          mazeBoardX={mazeBoardX}
+          mazeBoardY={mazeBoardY}
+        />
+      )
+    }
+  }
+  for (let i = 0; i < mazeBoardSizeX + 1; i++) {
+    for (let j = 0; j < mazeBoardSizeY; j++) {
+      if(!mazeBoardHorizontalWall[i][j] < 2) continue;
 
-  React.useEffect(() => {
-    animatedValue.value = withTiming(1, { duration: 1000 });
-    setPositionX(mazeBoardX);
-    setPositionY(mazeBoardY);
-  }, []);
-*/
-  // https://stackoverflow.com/questions/33907218/react-native-use-variable-for-image-file
+      //console.log(`${i} ${j}`);
+      //console.log(`left: ${gridSize * (j - mazeBoardY) - 2}`);
+      //console.log(`right: ${gridSize * (i - mazeBoardX) - 2}`);
 
-  // console.log(`Mazeboard: ${screenFixed}`);
-/*
-  const AnimatingBox = () => {
-    const animatedValue = useSharedValue(0);
-
-    const animationStyle = useAnimatedStyle(() => {
-      const top = interpolate(animatedValue.value,
-        [0, 1],
-        [0, 100],
-        Extrapolate.CLAMP
-      );
-      const left = interpolate(animatedValue.value,
-        [0, 1],
-        [0, 100],
-        Extrapolate.CLAMP
-      );
-  
-      return {
-        top,
-        left
-      };
-    });
+      wallList.push(
+        <HorizontalWall
+          type={mazeBoardHorizontalWall[i][j]}
+          wallX={i}
+          wallY={j}
+          mazeBoardX={mazeBoardX}
+          mazeBoardY={mazeBoardY}
+        />
+      )
+    }
   }
 
-  React.useEffect(() => {
-    animatedValue.value = withTiming(1, { duration: 1000 });
-  }, []);
-*/
-  const jsonData = mazeDatas[`mazeData${String(stage).padStart(2, '0')}`];
-
   return (
-    <Image
+    <AnimatedView
       style={[
         styles.maze,
         {
-          height: gridSize * jsonData.mazeBoardSizeX,
-          width: gridSize * jsonData.mazeBoardSizeY,
-          left: gridSize * (3 - mazeBoardY),
-          top: gridSize * (3 - mazeBoardX)
+          height: gridSize * mazeBoardSizeX,
+          width: gridSize * mazeBoardSizeY
         }
-        /*animationStyle*/]}
-      source={images[`image${String(stage).padStart(2, '0')}`]}
-    />
+      ]}
+    >
+      <Image
+        style={[
+          styles.maze,
+          {
+            height: gridSize * mazeBoardSizeX,
+            width: gridSize * mazeBoardSizeY,
+            left: gridSize * (3 - mazeBoardY),
+            top: gridSize * (3 - mazeBoardX)
+          }
+        ]}
+        source={images[`image${String(stage).padStart(2, '0')}`]}
+      />
+      <Fragment>{wallList}</Fragment>
+    </AnimatedView>
   )
 }
 
