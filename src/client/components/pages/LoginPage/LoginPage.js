@@ -17,11 +17,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { makeRedirectUri, useAuthRequest } from 'expo-auth-session'
 import * as Device from 'expo-device'
 import jwt_decode from 'jwt-decode'
+import SignupDialog from './SignupDialog'
+import SignInDialog from './SignInDialog'
 
 const useProxy = Platform.select({ web: false, default: true })
 const redirectUri = makeRedirectUri({ useProxy: true })
 
-const API_URL = 'http://143.248.194.161:5000'
+const API_URL = 'http://127.0.0.1:5000'
 
 const LoginPage = ({ navigation }) => {
   //회원가입
@@ -51,6 +53,7 @@ const LoginPage = ({ navigation }) => {
     prompt: 'consent', // 강제로 사용자 동의를 시도할 때 마다 화면에 표시
   })
   //console.log('Redirect URI:', redirectUri)
+  const [signupVisible, setSignUpVisible] = useState('')
 
   useEffect(() => {
     const init = async () => {
@@ -251,23 +254,18 @@ const LoginPage = ({ navigation }) => {
   } else {
     return (
       <View>
-        <Text>NickName:</Text>
-        <TextInput value={nickname} onChangeText={text => setNickName(text)} />
-        <Text>ID:</Text>
-        <TextInput value={id} onChangeText={text => setId(text)} />
-        <Text>Password:</Text>
-        <TextInput value={password} onChangeText={text => setPassword(text)} />
-        <Text>Team:</Text>
-        <TextInput value={team} onChangeText={text => setTeam(text)} />
-        <Button title="Sign Up" onPress={signUp} />
-        <Text>ID:</Text>
-        <TextInput value={LoginId} onChangeText={text => setLoginId(text)} />
-        <Text>Password:</Text>
-        <TextInput
-          value={LoginPassword}
-          onChangeText={text => setLoginPassword(text)}
+        <Button
+          title="SignUp"
+          onPress={() => {
+            navigation.replace('SignupDialog')
+          }}
         />
-        <Button title="Sign Up" onPress={handleSignIn} />
+        <Button
+          title="SignIn"
+          onPress={() => {
+            navigation.replace('SignInDialog')
+          }}
+        />
         <Button title="logout" onPress={handleLogout} />
         <Button
           title="Sign In with Google"

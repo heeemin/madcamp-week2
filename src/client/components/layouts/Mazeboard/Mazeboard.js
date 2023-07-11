@@ -1,6 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { View, ImageBackground, Image, StyleSheet } from 'react-native';
-import { PanGestureHandler, TapGestureHandler, State } from 'react-native-gesture-handler';
+import React, { useState, useEffect } from 'react'
+import { View, ImageBackground, Image, StyleSheet } from 'react-native'
+import {
+  PanGestureHandler,
+  TapGestureHandler,
+  State,
+} from 'react-native-gesture-handler'
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -9,9 +13,9 @@ import Animated, {
   Extrapolate,
   useAnimatedGestureHandler,
   withSpring,
-} from 'react-native-reanimated';
+} from 'react-native-reanimated'
 
-const AnimatedView = Animated.createAnimatedComponent(View);
+const AnimatedView = Animated.createAnimatedComponent(View)
 
 const images = {
   image01: require('../../../assets/maze/Mazeboard01.png'),
@@ -35,16 +39,22 @@ const images = {
   image19: require('../../../assets/maze/Mazeboard19.png'),
   image20: require('../../../assets/maze/Mazeboard20.png'),
   image21: require('../../../assets/maze/Mazeboard21.png'),
-  imageHD: require('../../../assets/maze/Mazeboard21.png')
-};
+  imageHD: require('../../../assets/maze/Mazeboard21.png'),
+}
 
-const startMazeBoardX = 0;
-const startMazeBoardY = 0;
+const startMazeBoardX = 0
+const startMazeBoardY = 0
 
-const Mazeboard = ({ stage, screenFixed, mazeBoardX, mazeBoardY /*containerStyle, onDrag, onDoubleTap*/ }) => {
-  const source = '../../../assets/maze/Mazeboard' + String(stage).padStart(2, '0') + '.png';
+const Mazeboard = ({
+  stage,
+  screenFixed,
+  mazeBoardX,
+  mazeBoardY /*containerStyle, onDrag, onDoubleTap*/,
+}) => {
+  const source =
+    '../../../assets/maze/Mazeboard' + String(stage).padStart(2, '0') + '.png'
   //console.log(source);
-/*
+  /*
   const [positionX, setPositionX] = useState(startMazeBoardX);
   const [positionY, setPositionY] = useState(startMazeBoardY);
 
@@ -77,7 +87,7 @@ const Mazeboard = ({ stage, screenFixed, mazeBoardX, mazeBoardY /*containerStyle
   // https://stackoverflow.com/questions/33907218/react-native-use-variable-for-image-file
 
   // console.log(`Mazeboard: ${screenFixed}`);
-/*
+  /*
   const AnimatingBox = () => {
     const animatedValue = useSharedValue(0);
 
@@ -110,9 +120,10 @@ const Mazeboard = ({ stage, screenFixed, mazeBoardX, mazeBoardY /*containerStyle
         styles.maze,
         {
           left: mazeBoardX,
-          top: mazeBoardY
-        }
-        /*animationStyle*/]}
+          top: mazeBoardY,
+        },
+        /*animationStyle*/
+      ]}
       source={images[`image${String(stage).padStart(2, '0')}`]}
     />
   )
@@ -123,8 +134,7 @@ const styles = StyleSheet.create({
     width: 320,
     height: 320,
     position: 'absolute',
+  },
+})
 
-  }
-});
-
-export default Mazeboard;
+export default Mazeboard
