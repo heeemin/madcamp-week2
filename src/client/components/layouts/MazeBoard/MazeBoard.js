@@ -11,7 +11,6 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated';
 
-import Cell from '../../elements/Cell';
 import VerticalWall from '../../elements/VerticalWall';
 import HorizontalWall from '../../elements/HorizontalWall';
 
@@ -44,30 +43,6 @@ const images = {
   imageHD: require('../../../assets/maze/mazeBoard21.png')
 };
 
-const mazeDatas = {
-  mazeData01: require('../../../data/mazeData01.json'),
-  mazeData02: require('../../../data/mazeData02.json'),
-  mazeData03: require('../../../data/mazeData03.json'),
-  mazeData04: require('../../../data/mazeData04.json'),
-  mazeData05: require('../../../data/mazeData05.json'),
-  mazeData06: require('../../../data/mazeData06.json'),
-  mazeData07: require('../../../data/mazeData07.json'),
-  mazeData08: require('../../../data/mazeData08.json'),
-  mazeData09: require('../../../data/mazeData09.json'),
-  mazeData10: require('../../../data/mazeData10.json'),
-  mazeData11: require('../../../data/mazeData11.json'),
-  mazeData12: require('../../../data/mazeData12.json'),
-  mazeData13: require('../../../data/mazeData13.json'),
-  mazeData14: require('../../../data/mazeData14.json'),
-  mazeData15: require('../../../data/mazeData15.json'),
-  mazeData16: require('../../../data/mazeData16.json'),
-  mazeData17: require('../../../data/mazeData17.json'),
-  mazeData18: require('../../../data/mazeData18.json'),
-  mazeData19: require('../../../data/mazeData19.json'),
-  mazeData20: require('../../../data/mazeData20.json'),
-  mazeData21: require('../../../data/mazeData21.json')
-};
-
 const MazeBoard = ({ stage, mazeBoardSizeX, mazeBoardSizeY, mazeBoardGrid, mazeBoardVerticalWall, mazeBoardHorizontalWall, mazeBoardX, mazeBoardY }) => {
   const wallList = []
   for (let i = 0; i < mazeBoardSizeX; i++) {
@@ -91,7 +66,7 @@ const MazeBoard = ({ stage, mazeBoardSizeX, mazeBoardSizeY, mazeBoardGrid, mazeB
   }
   for (let i = 0; i < mazeBoardSizeX + 1; i++) {
     for (let j = 0; j < mazeBoardSizeY; j++) {
-      if(!mazeBoardHorizontalWall[i][j] < 2) continue;
+      if(mazeBoardHorizontalWall[i][j] < 2) continue;
 
       //console.log(`${i} ${j}`);
       //console.log(`left: ${gridSize * (j - mazeBoardY) - 2}`);

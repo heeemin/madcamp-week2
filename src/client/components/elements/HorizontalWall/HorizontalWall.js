@@ -7,7 +7,10 @@ const AnimatedImage = Animated.createAnimatedComponent(Image);
 const gridSize = 46;
 
 const walls = {
-  wall1: require('../../../assets/wall/horizontalWall.png')
+  wall1: require('../../../assets/wall/horizontalWall.png'),
+  wall2: require('../../../assets/wall/orangeHorizontalWall.png'),
+  wall3: require('../../../assets/wall/greenHorizontalWall.png'),
+  wall4: require('../../../assets/wall/purpleHorizontalWall.png')
 };
 
 const HorizontalWall = ({ type, wallX, wallY, mazeBoardX, mazeBoardY }) => {
@@ -16,8 +19,8 @@ const HorizontalWall = ({ type, wallX, wallY, mazeBoardX, mazeBoardY }) => {
       style={[
         styles.wall,
         {
-          left: gridSize * (wallY - mazeBoardY) - 2,
-          top: gridSize * (wallX - mazeBoardX) - 2
+          left: gridSize * (wallY - mazeBoardY + 3) - 2,
+          top: gridSize * (wallX - mazeBoardX + 3) - 2
         }
       ]}
       source={walls[`wall${type}`]}
