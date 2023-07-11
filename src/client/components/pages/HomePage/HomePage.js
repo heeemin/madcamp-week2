@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react'
 import {
   TouchableOpacity,
@@ -27,9 +28,26 @@ const HomePage = ({ navigation }) => {
         <Clock />
         <Button title="Info" onPress={NavInfo} />
         <Button title="Back" onPress={NavLogin} />
+        <Button
+      title="Go to StagePage"
+      onPress={() => navigation.navigate("StagePage")}
+    />
       </View>
     )
   }
+  
 }
+const styles = StyleSheet.create({
+    homepage: {
+      flex: 1,
+      backgroundColor: '#fff',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }
+  });
+  
+
 
 export default HomePage
+
+

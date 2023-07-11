@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { View, Text, TextInput, Button } from 'react-native'
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+
 const Info = ({ userId, navigation }) => {
   const [userData, setUserData] = useState(null)
   const [nickname, setNickname] = useState('')
