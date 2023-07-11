@@ -14,6 +14,8 @@ import Animated, {
 
 import MazeBoard from '../../layouts/MazeBoard';
 import Character from '../../elements/Character';
+import FlagBoard from '../../layouts/FlagBoard';
+import Flag from '../../elements/Flag';
 
 const AnimatedView = Animated.createAnimatedComponent(View);
 const AnimatedText = Animated.createAnimatedComponent(Text);
@@ -46,7 +48,9 @@ const MazePage = ({ stage }) => {
   //const source = '../../../data/Mazedata' + String(stage).padStart(2, '0') + '.json';
   const jsonData = mazeDatas[`mazeData${String(stage).padStart(2, '0')}`];
   
-  //console.log(jsonData.stage);
+  console.log('stage' + jsonData.stage);
+  console.log(jsonData.mazeFlagGrid.length);
+  console.log(jsonData.mazeFlagGrid[0].length);
 
   //const translateX = useSharedValue(0);
   //const translateY = useSharedValue(0);
@@ -58,7 +62,19 @@ const MazePage = ({ stage }) => {
   const [moveCount, setMoveCount] = useState(0);
   const [screenFixed, setScreenFixed] = useState(false); 
 
-  const [mazeSolve, setMazeSolve] = useState(false);
+  const [mazeFlagCount, setMazeFlagCount] = useState(jsonData.mazeFlagCount);
+  const [mazeFlagGrid, setMazeFlagGrid] = useState(jsonData.mazeFlagGrid);
+
+  const [mazeSolved, setMazeSolved] = useState(false);
+
+  const updateMazeFlagGrid = (row, col, value) => {
+    const nextMazeFlagGrid = mazeFlagGrid.map((rows, rowIndex) =>
+      rows.map((cell, colIndex) =>
+        rowIndex === row && colIndex === col ? value : cell
+      )
+    );
+    runOnJS(setMazeFlagGrid)(nextMazeFlagGrid);
+  };
 
   const releaseFixed = async () => {
     await Promise.all([
@@ -164,6 +180,15 @@ const MazePage = ({ stage }) => {
         }
       }
 
+      if(mazeFlagGrid[mazeBoardX + characterX][mazeBoardY + characterY]){
+        runOnJS(updateMazeFlagGrid)(mazeBoardX + characterX, mazeBoardY + characterY, 0);
+        
+        const nextMazeFlagCount = mazeFlagCount - 1;
+        console.log(`nextMazeFlagCount: ${nextMazeFlagCount}`);
+        runOnJS(setMazeFlagCount)(nextMazeFlagCount);
+        if(!nextMazeFlagCount) runOnJS(setMazeSolved)(true);
+      }
+
       context.mazeBoardX = mazeBoardX;
       context.mazeBoardY = mazeBoardY;
       context.characterX = characterX;
@@ -175,6 +200,50 @@ const MazePage = ({ stage }) => {
     }
   });
 
+                /*
+                <FlagBoard
+                  mazeBoardSizeX={jsonData.mazeBoardSizeY}
+                  mazeBoardSizeY={jsonData.mazeBoardSizeY}
+                  mazeFlagGrid={jsonData.mazeFlagGrid}
+                />
+                */
+
+  const renderPage = () => {
+    if(mazeSolved) {
+      return <Text>Congratulations!</Text>;
+    }
+    return (
+      <AnimatedView style={styles.mazeBoard}>
+        <MazeBoard
+          stage={stage}
+          //containerStyle={containerStyle}
+          screenFixed={screenFixed}
+          mazeBoardX={mazeBoardX}
+          mazeBoardY={mazeBoardY}
+          //onDrag={onDrag}
+          //onDoubleTap={onDoubleTap}
+          //scaleImage={scaleImage}
+          //imageSize={imageSize}
+        />
+        <FlagBoard
+          mazeBoardSizeX={jsonData.mazeBoardSizeX}
+          mazeBoardSizeY={jsonData.mazeBoardSizeY}
+          mazeFlagGrid={mazeFlagGrid}
+          mazeBoardX={mazeBoardX}
+          mazeBoardY={mazeBoardY}
+        />
+        <Character
+          //containerStyle={containerStyle}
+          screenFixed={screenFixed}
+          characterX={characterX}
+          characterY={characterY}
+          //onDrag={onDrag}
+          //onDoubleTap={onDoubleTap}
+        />
+      </AnimatedView>
+    );
+  }
+
   return (
     <GestureHandlerRootView style={styles.container}>
       <PanGestureHandler onGestureEvent={onDrag}>
@@ -183,27 +252,7 @@ const MazePage = ({ stage }) => {
             <AnimatedView style={styles.container}>
               <Text>{`This is MazePage No.${stage}`}</Text>
               <Text>{`You moved ${moveCount} times.`}</Text>
-              <AnimatedView style={styles.mazeBoard}>
-                <MazeBoard
-                  stage={stage}
-                  //containerStyle={containerStyle}
-                  screenFixed={screenFixed}
-                  mazeBoardX={mazeBoardX}
-                  mazeBoardY={mazeBoardY}
-                  //onDrag={onDrag}
-                  //onDoubleTap={onDoubleTap}
-                  //scaleImage={scaleImage}
-                  //imageSize={imageSize}
-                />
-                <Character
-                  //containerStyle={containerStyle}
-                  screenFixed={screenFixed}
-                  characterX={characterX}
-                  characterY={characterY}
-                  //onDrag={onDrag}
-                  //onDoubleTap={onDoubleTap}
-                />
-              </AnimatedView>
+              {runOnJS(renderPage)()}
             </AnimatedView>
           </TapGestureHandler>
         </AnimatedView>

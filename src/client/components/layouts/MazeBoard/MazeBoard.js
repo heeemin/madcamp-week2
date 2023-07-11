@@ -133,8 +133,8 @@ const MazeBoard = ({ stage, mazeBoardX, mazeBoardY /*containerStyle, onDrag, onD
       style={[
         styles.maze,
         {
-          width: gridSize * jsonData.mazeBoardSizeY,
           height: gridSize * jsonData.mazeBoardSizeX,
+          width: gridSize * jsonData.mazeBoardSizeY,
           left: gridSize * (3 - mazeBoardY),
           top: gridSize * (3 - mazeBoardX)
         }
