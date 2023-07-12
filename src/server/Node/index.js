@@ -11,7 +11,7 @@ require('dotenv').config()
 
 //const secretOrPrivateKey = process.env.JWT_SECRET // 환경 변수로부터 "your_long_complex_secret_key_here" 값을 받아옵니다
 
-app.use(cors()) // cors 미들웨어를 삽입합니다.
+app.use(cors({ credentials: true, origin: 'http://143.248.194.161:5000' })) // cors 미들웨어를 삽입합니다.
 app.use(express.json()) //클라이언트에서 보내준 json형식의 요청 본문 분석 도와줌 json문자열 -> js객체
 
 //process.env.PORT -> 서버에서 지정된 포트 번호. 없으면 로컬 개발환경의 기본값 5000포트
@@ -68,8 +68,71 @@ var gamers = mongoose.Schema({
   },
 })
 
+var time = mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'gamers',
+  },
+  stage1: { type: Number, default: 0 },
+  stage2: { type: Number, default: 0 },
+  stage3: { type: Number, default: 0 },
+  stage4: { type: Number, default: 0 },
+  stage5: { type: Number, default: 0 },
+  stage6: { type: Number, default: 0 },
+  stage7: { type: Number, default: 0 },
+  stage8: { type: Number, default: 0 },
+  stage9: { type: Number, default: 0 },
+  stage10: { type: Number, default: 0 },
+  stage11: { type: Number, default: 0 },
+  stage12: { type: Number, default: 0 },
+  stage13: { type: Number, default: 0 },
+  stage14: { type: Number, default: 0 },
+  stage15: { type: Number, default: 0 },
+  stage16: { type: Number, default: 0 },
+  stage17: { type: Number, default: 0 },
+  stage18: { type: Number, default: 0 },
+  stage19: { type: Number, default: 0 },
+  stage20: { type: Number, default: 0 },
+  stage21: { type: Number, default: 0 },
+})
+
+var score = mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'gamers',
+  },
+  stage1: { type: Number, default: 0 },
+  stage2: { type: Number, default: 0 },
+  stage3: { type: Number, default: 0 },
+  stage4: { type: Number, default: 0 },
+  stage5: { type: Number, default: 0 },
+  stage6: { type: Number, default: 0 },
+  stage7: { type: Number, default: 0 },
+  stage8: { type: Number, default: 0 },
+  stage9: { type: Number, default: 0 },
+  stage10: { type: Number, default: 0 },
+  stage11: { type: Number, default: 0 },
+  stage12: { type: Number, default: 0 },
+  stage13: { type: Number, default: 0 },
+  stage14: { type: Number, default: 0 },
+  stage15: { type: Number, default: 0 },
+  stage16: { type: Number, default: 0 },
+  stage17: { type: Number, default: 0 },
+  stage18: { type: Number, default: 0 },
+  stage19: { type: Number, default: 0 },
+  stage20: { type: Number, default: 0 },
+  stage21: { type: Number, default: 0 },
+})
 //모델 정의. 컬렉션에 대한 인터페이스 역할
-module.exports = gamersModel = mongoose.model('gamers', gamers)
+var gamersModel = mongoose.model('gamers', gamers)
+var timerModel = mongoose.model('time', time)
+var scoresModel = mongoose.model('score', score)
+
+module.exports = {
+  gamersModel,
+  timerModel,
+  scoresModel,
+}
 
 app.post('/signup', async (req, res) => {
   try {
@@ -168,16 +231,18 @@ app.put('/user-data', async (req, res) => {
     const userId = decoded.userId
     console.log('User ID:', userId)
 
-    const user = await gamersModel.findOne({ _id: userId })
+    const user = await timerModel.findOne({ userId: userId })
     if (!user) {
       console.error('User does not exist')
       res.status(404).send('User not found')
     } else {
       // user가 존재하면 유저 정보 사용 가능
       const time = req.body.time
-      if (user.time < time) {
+      const stageNumber = parseInt(req.body.stage)
+      const stage = 'stage' + stageNumber
+      if (user.stage > time) {
         //최고기록만 기록.
-        user.time = time
+        user.stage = time
       }
       await user.save()
 
@@ -188,7 +253,9 @@ app.put('/user-data', async (req, res) => {
   }
 })
 
-app.get('/getUserData', async (req, res) => {
+////const secretOrPrivateKey = 'jllgshllWEUJHGHYJkjsfjds90' //이것도 처리해야함.
+//점수 기록
+app.put('/SaveScoreData', async (req, res) => {
   const authHeader = req.headers.authorization
   const token = authHeader && authHeader.split(' ')[1]
   console.log('Received token:', token)
@@ -202,7 +269,44 @@ app.get('/getUserData', async (req, res) => {
     const userId = decoded.userId
     console.log('User ID:', userId)
 
-    const user = await gamersModel.findOne({ _id: userId })
+    const user = await scoresModel.findOne({ userId: userId })
+    if (!user) {
+      console.error('User does not exist')
+      res.status(404).send('User not found')
+    } else {
+      // user가 존재하면 유저 정보 사용 가능
+      const stageNumber = parseInt(req.body.stage)
+      const moveCount = req.body.moveCount
+      const stage = 'stage' + stageNumber
+      if (user.stage > moveCount) {
+        //최저기록만 기록.
+        user.stage = moveCount
+      }
+      await user.save() //score 저장
+
+      res.status(200).json(user)
+    }
+  } catch (error) {
+    res.status(403).send(`Error: ${error.message}`)
+  }
+})
+
+//점수 데이터 가져오기
+app.get('/getScoreData', async (req, res) => {
+  const authHeader = req.headers.authorization
+  const token = authHeader && authHeader.split(' ')[1]
+  console.log('Received token:', token)
+
+  if (!token) {
+    return res.sendStatus(401)
+  }
+
+  try {
+    const decoded = jwt.verify(token, secretOrPrivateKey)
+    const userId = decoded.userId
+    console.log('User ID:', userId)
+
+    const user = await scoresModel.findOne({ userId: userId })
     if (!user) {
       console.error('User does not exist')
       res.status(404).send('User not found')
@@ -219,20 +323,83 @@ app.get('/getUserData', async (req, res) => {
   }
 })
 
+// stage에 해당하는 time 가져오기
+app.get('/getTimerData', async (req, res) => {
+  const authHeader = req.headers.authorization
+  const token = authHeader && authHeader.split(' ')[1]
+  console.log('Received token:', token)
+
+  if (!token) {
+    return res.sendStatus(401)
+  }
+
+  try {
+    const decoded = jwt.verify(token, secretOrPrivateKey)
+    const userId = decoded.userId
+    console.log('User ID:', userId)
+
+    const user = await timerModel.findOne({ userId: userId })
+    if (!user) {
+      console.error('User does not exist')
+      res.status(404).send('User not found')
+    } else {
+      res.status(200).json(user)
+    }
+  } catch (error) {
+    if (error instanceof jwt.JsonWebTokenError) {
+      res.status(401).json({ message: 'Invalid token' })
+    } else {
+      console.error('Error:', error.message)
+      res.status(500).json({ message: 'Failed to get user data' })
+    }
+  }
+})
+
+//Info 데이터 가져오기
+
+app.get('/getUserData', async (req, res) => {
+  try {
+    const authHeader = req.headers.authorization
+    if (!authHeader) {
+      return res.status(401).json({ message: '접근 불가: 토큰이 없습니다.' })
+    }
+
+    const token = authHeader.split(' ')[1]
+
+    jwt.verify(token, secretOrPrivateKey, async (err, decoded) => {
+      if (err) {
+        console.error(err)
+        return res
+          .status(401)
+          .json({ message: '토큰이 유효하지 않거나 만료되었습니다.' })
+      }
+
+      const userId = decoded.userId
+      const user = await gamersModel.findOne({ _id: userId })
+
+      if (!user) {
+        return res.status(404).json({ message: '사용자를 찾을 수 없습니다.' })
+      }
+
+      res.status(200).json(user)
+    })
+  } catch (error) {
+    console.error('Error:', error.message)
+    res.status(500).json({ message: '서버 오류' })
+  }
+})
+
 app.post('/signin', async (req, res) => {
   const user = await gamersModel.findOne({
-    id: req.body.LoginId,
+    id: req.body.id,
   })
   console.log('Login request body:', user.password)
   if (!user) {
     // 비밀 번호가 같다면 Token 생성
     return res.status(400).json({ message: '아이디 없음' })
   } else {
-    const isEqualPw = await bcrypt.compare(
-      req.body.LoginPassword,
-      user.password
-    )
-    console.log('Provided plain password: ', req.body.LoginPassword) // 로그 기록 검토
+    const isEqualPw = await bcrypt.compare(req.body.password, user.password)
+    console.log('Provided plain password: ', req.body.password) // 로그 기록 검토
     console.log('Stored hashed password: ', user.password) // 로그 기록 검토
     console.log(isEqualPw)
     if (isEqualPw) {
@@ -262,6 +429,13 @@ gamersModel
   .catch(err => {
     console.error(err)
   })
+
+app.post('/saveMoveCount', async (req, res) => {
+  const { moveCount } = req.body
+  // Save moveCount to the database
+
+  res.status(200).json({ message: 'Move count saved successfully.' })
+})
 
 // 기존 응답 미들웨어 아래에 추가
 function errorHandler(err, req, res, next) {

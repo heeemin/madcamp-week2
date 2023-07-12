@@ -12,6 +12,9 @@ import HomePage from './components/pages/HomePage'
 import StagePage from './components/pages/StagePage'
 import MazePage from './components/pages/MazePage'
 import Info from './components/pages/HomePage/Info'
+import SignupDialog from './components/pages/LoginPage/SignupDialog'
+import SignInDialog from './components/pages/LoginPage/SignInDialog'
+import ScoreBoard from './components/pages/HomePage/ScoreBoard'
 
 const Stack = createNativeStackNavigator()
 //const Tab = createBottomTabNavigator();
@@ -33,6 +36,9 @@ export default function App() {
         <Stack.Screen name="HomePage" component={HomePage} />
         <Stack.Screen name="StagePage" component={StagePage} />
         <Stack.Screen name="Info" component={Info} />
+        <Stack.Screen name="SignupDialog" component={SignupDialog} />
+        <Stack.Screen name="SignInDialog" component={SignInDialog} />
+        <Stack.Screen name="ScoreBoard" component={ScoreBoard} />
         <Fragment>{mazePages}</Fragment>
       </Stack.Navigator>
     </NavigationContainer>
