@@ -1,3 +1,5 @@
+![Image](https://github.com/heeemin/madcamp-week2/blob/garbage2/src/client/assets/background/square-background.png)
+
 # Maze
 
 ※ __2023 몰입캠프 프로젝트 2__ (2023.07.06. ~ 2023.07.12.) ※
