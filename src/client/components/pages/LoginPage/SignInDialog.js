@@ -92,15 +92,21 @@ export default SignupDialog = ({ navigation }) => {
       <View>
         <Modal transparent={true} visible={visible}>
           <View style={styles.modalView}>
-            <Text>ID:</Text>
-            <TextInput value={id} onChangeText={text => setId(text)} />
-            <Text>Password:</Text>
-            <TextInput
-              value={password}
-              onChangeText={text => setPassword(text)}
-            />
-            <Button title="Sign In" onPress={signIn} />
-            <Button title="닫기" onPress={NavLogin} />
+            <View style={styles.rowContainer}>
+              <Text>ID:</Text>
+              <TextInput value={id} onChangeText={text => setId(text)} />
+            </View>
+            <View style={styles.rowContainer}>
+              <Text>Password:</Text>
+              <TextInput
+                value={password}
+                onChangeText={text => setPassword(text)}
+              />
+            </View>
+            <View style={styles.rowContainer}>
+              <Button title="Sign In" onPress={signIn} />
+              <Button title="닫기" onPress={NavLogin} />
+            </View>
           </View>
         </Modal>
       </View>
@@ -121,4 +127,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     elevation: 5,
   },
+  rowContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
 })

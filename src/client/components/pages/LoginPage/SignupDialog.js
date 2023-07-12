@@ -100,23 +100,32 @@ export default SignupDialog = ({ navigation }) => {
       <View>
         <Modal transparent={true} visible={visible}>
           <View style={styles.modalView}>
-            <Text>NickName:</Text>
-            <TextInput
-              value={nickname}
-              onChangeText={text => setNickName(text)}
-            />
-            <Text>ID:</Text>
-            <TextInput value={id} onChangeText={text => setId(text)} />
-            <Text>Password:</Text>
-            <TextInput
-              value={password}
-              onChangeText={text => setPassword(text)}
-            />
-            <Text>Team:</Text>
-            <TextInput value={team} onChangeText={text => setTeam(text)} />
-            <Button title="Sign Up" onPress={signUp} />
-
-            <Button title="닫기" onPress={NavLogin} />
+            <View style={styles.rowContainer}>
+              <Text>NickName:</Text>
+              <TextInput
+                value={nickname}
+                onChangeText={text => setNickName(text)}
+              />
+            </View>
+            <View style={styles.rowContainer}>
+              <Text>ID:</Text>
+              <TextInput value={id} onChangeText={text => setId(text)} />
+            </View>
+            <View style={styles.rowContainer}>
+              <Text>Password:</Text>
+              <TextInput
+                value={password}
+                onChangeText={text => setPassword(text)}
+              />
+            </View>
+            <View style={styles.rowContainer}>
+              <Text>Team:</Text>
+              <TextInput value={team} onChangeText={text => setTeam(text)} />
+            </View>
+            <View style={styles.rowContainer}>
+              <Button title="Sign Up" onPress={signUp} />
+              <Button title="닫기" onPress={NavLogin} />
+            </View>
           </View>
         </Modal>
       </View>
@@ -137,4 +146,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     elevation: 5,
   },
+  rowContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
 })
