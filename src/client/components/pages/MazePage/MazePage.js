@@ -6,6 +6,7 @@ import {
   TapGestureHandler,
   State,
 } from 'react-native-gesture-handler'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import Animated, {
   useAnimatedStyle,
@@ -21,6 +22,8 @@ import MazeBoard from '../../layouts/MazeBoard'
 import Character from '../../elements/Character'
 import FlagBoard from '../../layouts/FlagBoard'
 import KeyBoard from '../../layouts/KeyBoard'
+import Timer from '../StagePage/Timer'
+import Control from '../StagePage/Control'
 
 const AnimatedView = Animated.createAnimatedComponent(View)
 const AnimatedText = Animated.createAnimatedComponent(Text)
@@ -83,6 +86,11 @@ const MazePage = ({ stage }) => {
 
   const [mazeSolved, setMazeSolved] = useState(false)
 
+  const [time, setTime] = useState(0)
+  const [status, setStatus] = useState(1)
+
+  const API_URL = 'http://143.248.194.161:5000'
+
   //moveCount를 score에 저장해야지.
   useEffect(() => {
     if (mazeSolved) {
@@ -109,11 +117,11 @@ const MazePage = ({ stage }) => {
 
   //clock 부분
 
-  const API_URL = 'http://143.248.194.161:5000'
   // -1 => stopped, 0=>paused, 1=> playing
   const reset = () => {
     setTime(0)
   }
+
   const handleStart = () => {
     setStatus(1)
   }
@@ -124,7 +132,7 @@ const MazePage = ({ stage }) => {
     setStatus(-1)
   }
 
-  // 토큰 가져오기 및 처리
+  //타임 저장
   useEffect(() => {
     const sendTimeToServer = async () => {
       try {
