@@ -30,6 +30,7 @@ const FlagBoard = ({ mazeBoardSizeX, mazeBoardSizeY, mazeFlagGrid, mazeBoardX, m
 
       flagList.push(
         <Flag
+          key={i * mazeBoardSizeY + j}
           type={mazeFlagGrid[i][j]}
           flagX={i}
           flagY={j}
@@ -62,4 +63,3 @@ const styles = StyleSheet.create({
 });
 
 export default FlagBoard;
-

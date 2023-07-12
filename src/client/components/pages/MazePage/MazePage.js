@@ -345,6 +345,13 @@ const MazePage = ({ stage }) => {
         }
       }
 
+      if(mazeBoardGrid[mazeBoardX + characterX][mazeBoardY + characterY] == 2){
+        if(screenFixed){
+          runOnJS(releaseFixed)();
+          runOnJS(setScreenFixed)(false);
+        }
+      }
+
       if(mazeFlagGrid[mazeBoardX + characterX][mazeBoardY + characterY]){
         runOnJS(updateMazeFlagGrid)(mazeBoardX + characterX, mazeBoardY + characterY);
         

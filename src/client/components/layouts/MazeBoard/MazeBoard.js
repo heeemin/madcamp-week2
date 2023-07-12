@@ -39,8 +39,7 @@ const images = {
   image18: require('../../../assets/maze/mazeBoard18.png'),
   image19: require('../../../assets/maze/mazeBoard19.png'),
   image20: require('../../../assets/maze/mazeBoard20.png'),
-  image21: require('../../../assets/maze/mazeBoard21.png'),
-  imageHD: require('../../../assets/maze/mazeBoard21.png')
+  image21: require('../../../assets/maze/mazeBoard21.png')
 };
 
 const MazeBoard = ({ stage, mazeBoardSizeX, mazeBoardSizeY, mazeBoardGrid, mazeBoardVerticalWall, mazeBoardHorizontalWall, mazeBoardX, mazeBoardY }) => {
