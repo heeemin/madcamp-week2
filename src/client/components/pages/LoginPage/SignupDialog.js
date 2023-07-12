@@ -27,7 +27,7 @@ export default SignupDialog = ({ navigation }) => {
   const [visible, setVisible] = useState(true)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
 
-  const API_URL = 'http://127.0.0.1:5000'
+  const API_URL = 'http://143.248.194.161:5000'
 
   useEffect(() => {
     if (isAuthenticated) {

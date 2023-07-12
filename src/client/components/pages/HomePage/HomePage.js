@@ -24,7 +24,6 @@ const HomePage = ({ navigation }) => {
   } else {
     return (
       <View>
-        <Clock />
         <Button title="Info" onPress={NavInfo} />
         <Button title="Back" onPress={NavLogin} />
         <Button

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import { View, ImageBackground, Image, StyleSheet } from 'react-native'
 import {
   PanGestureHandler,
@@ -15,126 +15,119 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated'
 
+import VerticalWall from '../../elements/VerticalWall'
+import HorizontalWall from '../../elements/HorizontalWall'
+
 const AnimatedView = Animated.createAnimatedComponent(View)
 
+const gridSize = 46
+
 const images = {
-  image01: require('../../../assets/maze/Mazeboard01.png'),
-  image02: require('../../../assets/maze/Mazeboard02.png'),
-  image03: require('../../../assets/maze/Mazeboard03.png'),
-  image04: require('../../../assets/maze/Mazeboard04.png'),
-  image05: require('../../../assets/maze/Mazeboard05.png'),
-  image06: require('../../../assets/maze/Mazeboard06.png'),
-  image07: require('../../../assets/maze/Mazeboard07.png'),
-  image08: require('../../../assets/maze/Mazeboard08.png'),
-  image09: require('../../../assets/maze/Mazeboard09.png'),
-  image10: require('../../../assets/maze/Mazeboard10.png'),
-  image11: require('../../../assets/maze/Mazeboard11.png'),
-  image12: require('../../../assets/maze/Mazeboard12.png'),
-  image13: require('../../../assets/maze/Mazeboard13.png'),
-  image14: require('../../../assets/maze/Mazeboard14.png'),
-  image15: require('../../../assets/maze/Mazeboard15.png'),
-  image16: require('../../../assets/maze/Mazeboard16.png'),
-  image17: require('../../../assets/maze/Mazeboard17.png'),
-  image18: require('../../../assets/maze/Mazeboard18.png'),
-  image19: require('../../../assets/maze/Mazeboard19.png'),
-  image20: require('../../../assets/maze/Mazeboard20.png'),
-  image21: require('../../../assets/maze/Mazeboard21.png'),
-  imageHD: require('../../../assets/maze/Mazeboard21.png'),
+  image01: require('../../../assets/maze/mazeBoard01.png'),
+  image02: require('../../../assets/maze/mazeBoard02.png'),
+  image03: require('../../../assets/maze/mazeBoard03.png'),
+  image04: require('../../../assets/maze/mazeBoard04.png'),
+  image05: require('../../../assets/maze/mazeBoard05.png'),
+  image06: require('../../../assets/maze/mazeBoard06.png'),
+  image07: require('../../../assets/maze/mazeBoard07.png'),
+  image08: require('../../../assets/maze/mazeBoard08.png'),
+  image09: require('../../../assets/maze/mazeBoard09.png'),
+  image10: require('../../../assets/maze/mazeBoard10.png'),
+  image11: require('../../../assets/maze/mazeBoard11.png'),
+  image12: require('../../../assets/maze/mazeBoard12.png'),
+  image13: require('../../../assets/maze/mazeBoard13.png'),
+  image14: require('../../../assets/maze/mazeBoard14.png'),
+  image15: require('../../../assets/maze/mazeBoard15.png'),
+  image16: require('../../../assets/maze/mazeBoard16.png'),
+  image17: require('../../../assets/maze/mazeBoard17.png'),
+  image18: require('../../../assets/maze/mazeBoard18.png'),
+  image19: require('../../../assets/maze/mazeBoard19.png'),
+  image20: require('../../../assets/maze/mazeBoard20.png'),
+  image21: require('../../../assets/maze/mazeBoard21.png'),
+  imageHD: require('../../../assets/maze/mazeBoard21.png'),
 }
 
-const startMazeBoardX = 0
-const startMazeBoardY = 0
-
-const Mazeboard = ({
+const MazeBoard = ({
   stage,
-  screenFixed,
+  mazeBoardSizeX,
+  mazeBoardSizeY,
+  mazeBoardGrid,
+  mazeBoardVerticalWall,
+  mazeBoardHorizontalWall,
   mazeBoardX,
-  mazeBoardY /*containerStyle, onDrag, onDoubleTap*/,
+  mazeBoardY,
 }) => {
-  const source =
-    '../../../assets/maze/Mazeboard' + String(stage).padStart(2, '0') + '.png'
-  //console.log(source);
-  /*
-  const [positionX, setPositionX] = useState(startMazeBoardX);
-  const [positionY, setPositionY] = useState(startMazeBoardY);
+  const wallList = []
+  for (let i = 0; i < mazeBoardSizeX; i++) {
+    for (let j = 0; j < mazeBoardSizeY + 1; j++) {
+      if (mazeBoardVerticalWall[i][j] < 2) continue
 
-  const animatedValue = useSharedValue(0);
+      //console.log(`${i} ${j}`);
+      //console.log(`left: ${gridSize * (j - mazeBoardY) - 2}`);
+      //console.log(`right: ${gridSize * (i - mazeBoardX) - 2}`);
 
-  const animationStyle = useAnimatedStyle(() => {
-    const left = interpolate(animatedValue.value,
-      [0, 1],
-      [positionX, mazeBoardX],
-      Extrapolate.CLAMP
-    );
-    const top = interpolate(animatedValue.value,
-      [0, 1],
-      [positionY, mazeBoardY],
-      Extrapolate.CLAMP
-    );
-  
-    return {
-      left,
-      top
-    };
-  });
+      wallList.push(
+        <VerticalWall
+          type={mazeBoardVerticalWall[i][j]}
+          wallX={i}
+          wallY={j}
+          mazeBoardX={mazeBoardX}
+          mazeBoardY={mazeBoardY}
+        />
+      )
+    }
+  }
+  for (let i = 0; i < mazeBoardSizeX + 1; i++) {
+    for (let j = 0; j < mazeBoardSizeY; j++) {
+      if (mazeBoardHorizontalWall[i][j] < 2) continue
 
-  React.useEffect(() => {
-    animatedValue.value = withTiming(1, { duration: 1000 });
-    setPositionX(mazeBoardX);
-    setPositionY(mazeBoardY);
-  }, []);
-*/
-  // https://stackoverflow.com/questions/33907218/react-native-use-variable-for-image-file
+      //console.log(`${i} ${j}`);
+      //console.log(`left: ${gridSize * (j - mazeBoardY) - 2}`);
+      //console.log(`right: ${gridSize * (i - mazeBoardX) - 2}`);
 
-  // console.log(`Mazeboard: ${screenFixed}`);
-  /*
-  const AnimatingBox = () => {
-    const animatedValue = useSharedValue(0);
-
-    const animationStyle = useAnimatedStyle(() => {
-      const top = interpolate(animatedValue.value,
-        [0, 1],
-        [0, 100],
-        Extrapolate.CLAMP
-      );
-      const left = interpolate(animatedValue.value,
-        [0, 1],
-        [0, 100],
-        Extrapolate.CLAMP
-      );
-  
-      return {
-        top,
-        left
-      };
-    });
+      wallList.push(
+        <HorizontalWall
+          type={mazeBoardHorizontalWall[i][j]}
+          wallX={i}
+          wallY={j}
+          mazeBoardX={mazeBoardX}
+          mazeBoardY={mazeBoardY}
+        />
+      )
+    }
   }
 
-  React.useEffect(() => {
-    animatedValue.value = withTiming(1, { duration: 1000 });
-  }, []);
-*/
   return (
-    <Image
+    <AnimatedView
       style={[
         styles.maze,
         {
-          left: mazeBoardX,
-          top: mazeBoardY,
+          height: gridSize * mazeBoardSizeX,
+          width: gridSize * mazeBoardSizeY,
         },
-        /*animationStyle*/
       ]}
-      source={images[`image${String(stage).padStart(2, '0')}`]}
-    />
+    >
+      <Image
+        style={[
+          styles.maze,
+          {
+            height: gridSize * mazeBoardSizeX,
+            width: gridSize * mazeBoardSizeY,
+            left: gridSize * (3 - mazeBoardY),
+            top: gridSize * (3 - mazeBoardX),
+          },
+        ]}
+        source={images[`image${String(stage).padStart(2, '0')}`]}
+      />
+      <Fragment>{wallList}</Fragment>
+    </AnimatedView>
   )
 }
 
 const styles = StyleSheet.create({
   maze: {
-    width: 320,
-    height: 320,
     position: 'absolute',
   },
 })
 
-export default Mazeboard
+export default MazeBoard
