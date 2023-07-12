@@ -11,8 +11,7 @@ import Animated, {
 
 const AnimatedImage = Animated.createAnimatedComponent(Image);
 
-const startCharacterX = 138;
-const startCharacterY = 138;
+const gridSize = 46;
 
 const Character = ({ screenFixed, characterX, characterY /*, containerStyle, onDrag, onDoubleTap*/ }) => {
   /*
@@ -158,8 +157,8 @@ const Character = ({ screenFixed, characterX, characterY /*, containerStyle, onD
       style={[
         styles.circle,
         {
-          left: characterX,
-          top: characterY
+          left: gridSize * (3.5 + characterY) - 40 * 0.5,
+          top: gridSize * (3.5 + characterX) - 40 * 0.5
         }
       ]}
     />

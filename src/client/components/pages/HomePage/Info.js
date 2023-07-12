@@ -12,7 +12,7 @@ const Info = ({ userId, navigation }) => {
   const [id, setId] = useState('')
   const [ID, setID] = useState('')
 
-  const API_URL = 'http://143.248.194.161:5000'
+  const API_URL = 'http://143.248.194.95:5000'
   // 유저 데이터 가져오기
   const NavLogin = () => {
     navigation.replace('LoginPage')

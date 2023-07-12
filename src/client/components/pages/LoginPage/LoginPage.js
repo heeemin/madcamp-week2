@@ -23,7 +23,7 @@ import SignInDialog from './SignInDialog'
 const useProxy = Platform.select({ web: false, default: true })
 const redirectUri = makeRedirectUri({ useProxy: true })
 
-const API_URL = 'http://143.248.194.161:5000'
+const API_URL = 'http://143.248.194.95:5000'
 
 const LoginPage = ({ navigation }) => {
   //회원가입

@@ -18,9 +18,14 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated'
 
+<<<<<<< HEAD
 import MazeBoard from '../../layouts/Mazeboard/Mazeboard'
 import Character from '../../elements/Character'
 import FlagBoard from '../../layouts/FlagBoard'
+=======
+import MazeBoard from '../../layouts/MazeBoard';
+import Character from '../../elements/Character';
+>>>>>>> 5c97fa4d1c7e90774efeb01b2a451d8aee60fadc
 
 import Flag from '../../elements/Flag'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -51,6 +56,7 @@ const mazeDatas = {
   mazeData18: require('../../../data/mazeData18.json'),
   mazeData19: require('../../../data/mazeData19.json'),
   mazeData20: require('../../../data/mazeData20.json'),
+<<<<<<< HEAD
   mazeData21: require('../../../data/mazeData21.json'),
 }
 
@@ -68,6 +74,23 @@ const MazePage = ({ stage }) => {
   const [mazeBoardY, setMazeBoardY] = useState(jsonData.startMazeBoardY)
   const [characterX, setCharacterX] = useState(0)
   const [characterY, setCharacterY] = useState(0)
+=======
+  mazeData21: require('../../../data/mazeData21.json')
+};
+
+const MazePage = ({ stage }) => {
+  //const source = '../../../data/Mazedata' + String(stage).padStart(2, '0') + '.json';
+  const jsonData = mazeDatas[`mazeData${String(stage).padStart(2, '0')}`];
+  
+  //console.log(jsonData.stage);
+
+  //const translateX = useSharedValue(0);
+  //const translateY = useSharedValue(0);
+  const [mazeBoardX, setMazeBoardX] = useState(jsonData.startMazeBoardX);
+  const [mazeBoardY, setMazeBoardY] = useState(jsonData.startMazeBoardY);
+  const [characterX, setCharacterX] = useState(0);
+  const [characterY, setCharacterY] = useState(0);
+>>>>>>> 5c97fa4d1c7e90774efeb01b2a451d8aee60fadc
 
   const [moveCount, setMoveCount] = useState(0)
   const [screenFixed, setScreenFixed] = useState(false)
@@ -180,17 +203,25 @@ const MazePage = ({ stage }) => {
     runOnJS(setMazeFlagGrid)(nextMazeFlagGrid)
   }
 
+  const [mazeSolve, setMazeSolve] = useState(false);
+
   const releaseFixed = async () => {
     await Promise.all([
       runOnJS(setMazeBoardX)(mazeBoardX + characterX),
       runOnJS(setMazeBoardY)(mazeBoardY + characterY),
       runOnJS(setCharacterX)(0),
+<<<<<<< HEAD
       runOnJS(setCharacterY)(0),
     ])
+=======
+      runOnJS(setCharacterY)(0)
+    ]);
+>>>>>>> 5c97fa4d1c7e90774efeb01b2a451d8aee60fadc
   }
 
   const onDoubleTap = useAnimatedGestureHandler({
     onActive: () => {
+<<<<<<< HEAD
       console.log(`move #${moveCount + 1}`)
       runOnJS(setMoveCount)(moveCount + 1)
 
@@ -200,6 +231,15 @@ const MazePage = ({ stage }) => {
         `mazeBoard: ${mazeBoardX} ${mazeBoardY} / character: ${characterX} ${characterY} / fix: ${!screenFixed}`
       )
       runOnJS(setScreenFixed)(!screenFixed)
+=======
+      console.log(`move #${moveCount + 1}`);
+      runOnJS(setMoveCount)(moveCount + 1);
+
+      if(screenFixed) runOnJS(releaseFixed)();
+      
+      console.log(`mazeBoard: ${mazeBoardX} ${mazeBoardY} / character: ${characterX} ${characterY} / fix: ${!screenFixed}`);
+      runOnJS(setScreenFixed)(!screenFixed);
+>>>>>>> 5c97fa4d1c7e90774efeb01b2a451d8aee60fadc
     },
   })
 
@@ -211,6 +251,7 @@ const MazePage = ({ stage }) => {
       context.characterY = characterY
     },
     onEnd: (event, context) => {
+<<<<<<< HEAD
       console.log(`move #${moveCount + 1}`)
       runOnJS(setMoveCount)(moveCount + 1)
 
@@ -359,6 +400,87 @@ const MazePage = ({ stage }) => {
       context.mazeBoardY = mazeBoardY
       context.characterX = characterX
       context.characterY = characterY
+=======
+      console.log(`move #${moveCount + 1}`);
+      runOnJS(setMoveCount)(moveCount + 1);
+
+      if(Math.abs(event.translationX) < Math.abs(event.translationY)){
+        if(event.translationY < 0 && !jsonData.mazeBoardHorizontalWall[mazeBoardX + characterX][mazeBoardY + characterY]){
+          if(screenFixed){
+            const nextCharacterX = (characterX + 9) % 7 - 3;
+            if(jsonData.mazeBoardGrid[mazeBoardX + nextCharacterX][mazeBoardY + characterY]
+              && !jsonData.mazeBoardHorizontalWall[mazeBoardX + nextCharacterX + 1][mazeBoardY + characterY]){
+              console.log(`mazeBoard: ${mazeBoardX} ${mazeBoardY} / character: ${nextCharacterX} ${characterY} / dir: up`);
+              runOnJS(setCharacterX)(nextCharacterX);
+            }
+          }
+          else{
+            const nextMazeBoardX = mazeBoardX - 1;
+
+            console.log(`mazeBoard: ${nextMazeBoardX} ${mazeBoardY} / character: ${characterX} ${characterY} / dir: up`);
+            runOnJS(setMazeBoardX)(nextMazeBoardX);
+          }
+        }
+        if(event.translationY > 0 && !jsonData.mazeBoardHorizontalWall[mazeBoardX + characterX + 1][mazeBoardY + characterY]){
+          if(screenFixed){
+            const nextCharacterX = (characterX + 4) % 7 - 3;
+            
+            if(jsonData.mazeBoardGrid[mazeBoardX + nextCharacterX][mazeBoardY + characterY]
+              && !jsonData.mazeBoardHorizontalWall[mazeBoardX + nextCharacterX][mazeBoardY + characterY]){
+                console.log(`mazeBoard: ${mazeBoardX} ${mazeBoardY} / character: ${nextCharacterX} ${characterY} / dir: down`);
+              runOnJS(setCharacterX)(nextCharacterX);
+            }
+          }
+          else{
+            const nextMazeBoardX = mazeBoardX + 1;
+
+            console.log(`mazeBoard: ${nextMazeBoardX} ${mazeBoardY} / character: ${characterX} ${characterY} / dir: down`);
+            runOnJS(setMazeBoardX)(nextMazeBoardX);
+          }
+        }
+      }
+      if(Math.abs(event.translationX) > Math.abs(event.translationY)){
+        if(event.translationX < 0 && !jsonData.mazeBoardVerticalWall[mazeBoardX + characterX][mazeBoardY + characterY]){
+          if(screenFixed){
+            const nextCharacterY = (characterY + 9) % 7 - 3;
+            
+            if(jsonData.mazeBoardGrid[mazeBoardX + characterX][mazeBoardY + nextCharacterY]
+              && !jsonData.mazeBoardVerticalWall[mazeBoardX + characterX][mazeBoardY + nextCharacterY + 1]){
+                console.log(`mazeBoard: ${mazeBoardX} ${mazeBoardY} / character: ${characterX} ${nextCharacterY} / dir: left`);
+              runOnJS(setCharacterY)(nextCharacterY);
+            }
+          }
+          else{
+            const nextMazeBoardY = mazeBoardY - 1;
+
+            console.log(`mazeBoard: ${mazeBoardX} ${nextMazeBoardY} / character: ${characterX} ${characterY} / dir: left`);
+            runOnJS(setMazeBoardY)(nextMazeBoardY);
+          }
+        }
+        if(event.translationX > 0 && !jsonData.mazeBoardVerticalWall[mazeBoardX + characterX][mazeBoardY + characterY + 1]){
+          if(screenFixed){
+            const nextCharacterY = (characterY + 4) % 7 - 3;
+
+            if(jsonData.mazeBoardGrid[mazeBoardX + characterX][mazeBoardY + nextCharacterY]
+              && !jsonData.mazeBoardVerticalWall[mazeBoardX + characterX][mazeBoardY + nextCharacterY]){
+                console.log(`mazeBoard: ${mazeBoardX} ${mazeBoardY} / character: ${characterX} ${nextCharacterY} / dir: right`);
+              runOnJS(setCharacterY)(nextCharacterY);
+            }
+          }
+          else{
+            const nextMazeBoardY = mazeBoardY + 1;
+
+            console.log(`mazeBoard: ${mazeBoardX} ${nextMazeBoardY} / character: ${characterX} ${characterY} / dir: right`);
+            runOnJS(setMazeBoardY)(nextMazeBoardY);
+          }
+        }
+      }
+
+      context.mazeBoardX = mazeBoardX;
+      context.mazeBoardY = mazeBoardY;
+      context.characterX = characterX;
+      context.characterY = characterY;
+>>>>>>> 5c97fa4d1c7e90774efeb01b2a451d8aee60fadc
       //runOnJS(setLeft)(context.translateX);
       //runOnJS(setTop)(context.translateY);
       //console.log(translateX.value);
@@ -429,7 +551,31 @@ const MazePage = ({ stage }) => {
             <AnimatedView style={styles.container}>
               <Text>{`This is MazePage No.${stage}`}</Text>
               <Text>{`You moved ${moveCount} times.`}</Text>
+<<<<<<< HEAD
               {runOnJS(renderPage)()}
+=======
+              <AnimatedView style={styles.mazeBoard}>
+                <MazeBoard
+                  stage={stage}
+                  //containerStyle={containerStyle}
+                  screenFixed={screenFixed}
+                  mazeBoardX={mazeBoardX}
+                  mazeBoardY={mazeBoardY}
+                  //onDrag={onDrag}
+                  //onDoubleTap={onDoubleTap}
+                  //scaleImage={scaleImage}
+                  //imageSize={imageSize}
+                />
+                <Character
+                  //containerStyle={containerStyle}
+                  screenFixed={screenFixed}
+                  characterX={characterX}
+                  characterY={characterY}
+                  //onDrag={onDrag}
+                  //onDoubleTap={onDoubleTap}
+                />
+              </AnimatedView>
+>>>>>>> 5c97fa4d1c7e90774efeb01b2a451d8aee60fadc
             </AnimatedView>
           </TapGestureHandler>
         </AnimatedView>
@@ -449,8 +595,13 @@ const styles = StyleSheet.create({
     width: 322,
     height: 322,
     overflow: 'hidden',
+<<<<<<< HEAD
   },
 })
+=======
+  }
+});
+>>>>>>> 5c97fa4d1c7e90774efeb01b2a451d8aee60fadc
 
 export default MazePage
 */
