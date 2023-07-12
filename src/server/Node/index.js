@@ -203,7 +203,7 @@ app.post('/googleSignIn', async (req, res) => {
         id: payload.email,
         password: hashedPassword,
       })
-      const savedUser = await User.save()
+      const savedUser = User.save()
       const newToken = jwt.sign({ userId: user._id }, secretOrPrivateKey, {
         expiresIn: '24h',
       })
@@ -453,8 +453,18 @@ app.post('/logout', (req, res) => {
 
 //info.js에서 데이터 변경
 app.put('/updateUserData', async (req, res) => {
+  const authHeader = req.headers.authorization
+  const token = authHeader && authHeader.split(' ')[1]
+
+  if (!token) {
+    return res.sendStatus(401)
+  }
+
   try {
-    const { userId, updateData } = req.body
+    const decoded = jwt.verify(token, secretOrPrivateKey)
+    const userId = decoded.userId
+
+    const { updateData } = req.body
     const updatedUser = await gamersModel.findOneAndUpdate(
       { _id: userId },
       updateData,

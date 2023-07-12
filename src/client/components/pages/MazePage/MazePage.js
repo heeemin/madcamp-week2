@@ -17,6 +17,7 @@ import Animated, {
   useDerivedValue,
   withSpring,
 } from 'react-native-reanimated'
+import jwt_decode from 'jwt-decode'
 
 import MazeBoard from '../../layouts/MazeBoard'
 import Character from '../../elements/Character'
@@ -114,73 +115,6 @@ const MazePage = ({ stage }) => {
       saveMoveCount()
     }
   }, [mazeSolved])
-
-  //clock 부분
-
-  // -1 => stopped, 0=>paused, 1=> playing
-  const reset = () => {
-    setTime(0)
-  }
-
-  const handleStart = () => {
-    setStatus(1)
-  }
-  const handlePause = () => {
-    setStatus(status === 0 ? 1 : 0)
-  }
-  const handleStop = () => {
-    setStatus(-1)
-  }
-
-  //타임 저장
-  useEffect(() => {
-    const sendTimeToServer = async () => {
-      try {
-        const token = await AsyncStorage.getItem('jwtToken')
-        console.log('Sending token:', token)
-        const decodedToken = jwt_decode(token)
-        console.log('Decoded token:', decodedToken)
-
-        const response = await axios.put(
-          `${API_URL}/user-data`,
-          {
-            time: time,
-            stage: stage,
-          },
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        )
-
-        reset()
-      } catch (error) {
-        console.error(error)
-      }
-    }
-
-    if (status === -1) {
-      sendTimeToServer()
-    }
-  }, [status])
-
-  // 타이머 처리
-  useEffect(() => {
-    let timerID
-    if (status == 1) {
-      timerID = setInterval(() => {
-        setTime(time => time + 10)
-      }, 10)
-    } else {
-      clearInterval(timerID)
-    }
-
-    return () => {
-      clearInterval(timerID)
-    }
-  }, [status])
 
   const updateMazeBoardVerticalWall = (row, col) => {
     const nextMazeBoardVerticalWall = mazeBoardVerticalWall.map(
@@ -697,49 +631,40 @@ const MazePage = ({ stage }) => {
     if (mazeSolved) return <Text>Congratulations!</Text>
     return (
       <View>
-        <Timer time={time} />
-        <View>
-          <AnimatedView style={styles.mazeBoard}>
-            <MazeBoard
-              stage={stage}
-              mazeBoardSizeX={jsonData.mazeBoardSizeX}
-              mazeBoardSizeY={jsonData.mazeBoardSizeY}
-              mazeBoardGrid={jsonData.mazeBoardGrid}
-              mazeBoardVerticalWall={mazeBoardVerticalWall}
-              mazeBoardHorizontalWall={mazeBoardHorizontalWall}
-              mazeBoardX={mazeBoardX}
-              mazeBoardY={mazeBoardY}
-            />
-            <FlagBoard
-              mazeBoardSizeX={jsonData.mazeBoardSizeX}
-              mazeBoardSizeY={jsonData.mazeBoardSizeY}
-              mazeFlagGrid={mazeFlagGrid}
-              mazeBoardX={mazeBoardX}
-              mazeBoardY={mazeBoardY}
-            />
-            <KeyBoard
-              mazeBoardSizeX={jsonData.mazeBoardSizeX}
-              mazeBoardSizeY={jsonData.mazeBoardSizeY}
-              mazeKeyGrid={mazeKeyGrid}
-              mazeBoardX={mazeBoardX}
-              mazeBoardY={mazeBoardY}
-            />
-            <Character
-              //containerStyle={containerStyle}
-              screenFixed={screenFixed}
-              characterX={characterX}
-              characterY={characterY}
-              //onDrag={onDrag}
-              //onDoubleTap={onDoubleTap}
-            />
-          </AnimatedView>
-        </View>
-        <Control
-          status={status}
-          handleStart={handleStart}
-          handlePause={handlePause}
-          handleStop={handleStop}
-        />
+        <AnimatedView style={styles.mazeBoard}>
+          <MazeBoard
+            stage={stage}
+            mazeBoardSizeX={jsonData.mazeBoardSizeX}
+            mazeBoardSizeY={jsonData.mazeBoardSizeY}
+            mazeBoardGrid={jsonData.mazeBoardGrid}
+            mazeBoardVerticalWall={mazeBoardVerticalWall}
+            mazeBoardHorizontalWall={mazeBoardHorizontalWall}
+            mazeBoardX={mazeBoardX}
+            mazeBoardY={mazeBoardY}
+          />
+          <FlagBoard
+            mazeBoardSizeX={jsonData.mazeBoardSizeX}
+            mazeBoardSizeY={jsonData.mazeBoardSizeY}
+            mazeFlagGrid={mazeFlagGrid}
+            mazeBoardX={mazeBoardX}
+            mazeBoardY={mazeBoardY}
+          />
+          <KeyBoard
+            mazeBoardSizeX={jsonData.mazeBoardSizeX}
+            mazeBoardSizeY={jsonData.mazeBoardSizeY}
+            mazeKeyGrid={mazeKeyGrid}
+            mazeBoardX={mazeBoardX}
+            mazeBoardY={mazeBoardY}
+          />
+          <Character
+            //containerStyle={containerStyle}
+            screenFixed={screenFixed}
+            characterX={characterX}
+            characterY={characterY}
+            //onDrag={onDrag}
+            //onDoubleTap={onDoubleTap}
+          />
+        </AnimatedView>
       </View>
     )
   }

@@ -61,10 +61,6 @@ const HomePage = ({ navigation }) => {
           onPress={() => navigation.navigate('StagePage')}
         />
         <Button title="logout" onPress={logout} />
-        <Button
-          title="Go to StagePage"
-          onPress={() => navigation.navigate('ScoreBoard')}
-        />
       </View>
     )
   }

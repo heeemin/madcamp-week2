@@ -11,6 +11,7 @@ const ScoreBoard = ({ userId, navigation }) => {
   const API_URL = 'http://143.248.194.161:5000'
   // 유저 데이터 가져오기
   useEffect(() => {
+      //점수 가져오기
     const fetchData = async () => {
       try {
         const token = await AsyncStorage.getItem('jwtToken')
@@ -30,7 +31,7 @@ const ScoreBoard = ({ userId, navigation }) => {
         console.log(`Error fetching data: ${error}`)
       }
     }
-
+    // 시간 가져오기
     const fetchData2 = async () => {
       try {
         const token = await AsyncStorage.getItem('jwtToken')

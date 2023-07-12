@@ -10,17 +10,17 @@ export default function Time({ time }) {
     const formattedValue = ('0' + convertedValue).slice(-2)
     return formattedValue
   }
+  /*
   const transformMilliseconds = () => {
     const convertedValue = Math.floor((time / 10) % 100)
     const formattedValue = ('0' + convertedValue).slice(-2)
     return formattedValue
-  }
+  }*/
   return (
     <View style={styles.row}>
       <Text style={styles.time}>
         {transformMinutes()} :<Text> </Text>
-        {transformSeconds()} :<Text> </Text>
-        {transformMilliseconds()}
+        {transformSeconds()} <Text> </Text>
       </Text>
     </View>
   )
