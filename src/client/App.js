@@ -39,6 +39,7 @@ export default function App() {
         <Stack.Screen name="SignupDialog" component={SignupDialog} />
         <Stack.Screen name="SignInDialog" component={SignInDialog} />
         <Stack.Screen name="ScoreBoard" component={ScoreBoard} />
+
         <Fragment>{mazePages}</Fragment>
       </Stack.Navigator>
     </NavigationContainer>
