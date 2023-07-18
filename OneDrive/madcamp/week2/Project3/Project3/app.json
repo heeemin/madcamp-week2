@@ -1,11 +1,13 @@
 {
   "expo": {
-    "name": "Project3",
-    "slug": "Project3",
+    "name": "madcamp-week2",
+    "slug": "madcamp-week2",
+    "scheme": "madcamp-week2",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "jsEngine": "jsc",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -13,18 +15,26 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.Project3"
+      "bundleIdentifier": "com.myuser.madcamp-week2",
+      "googleServicesFile": "./GoogleService-Info.plist",
+      "supportsTablet": true
     },
     "android": {
+      "package": "com.myuser.madcamp-week2",
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      },
-      "package": "com.anonymous.Project3"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "plugins": ["@react-native-google-signin/google-signin"],
+    "extra": {
+      "eas": {
+        "projectId": "7dfb2355-f4cb-4bed-b0bc-04ac03118448"
+      }
     }
   }
 }

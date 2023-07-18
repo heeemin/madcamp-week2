@@ -1,0 +1,164 @@
+@import url('https://fonts.googleapis.com/css2?family=Fjalla+One&family=Gothic+A1:wght@400;700&family=Gugi&family=Lobster&family=Merriweather:ital,wght@1,400;1,700&family=Nanum+Myeongjo:wght@700;800&display=swap');
+
+.login {
+  border-radius: 20px;
+  border-width: 1px;
+  border-color: black;
+}
+.mainBox {
+  width: 100%;
+  height: 100vh;
+  margin: 0px auto;
+}
+.mainVideo {
+  z-index: -1;
+  width: 100%;
+  height: 150%;
+  object-fit: cover;
+  opacity: 80%;
+}
+.mainVideo-text {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+}
+.mainVideo-bold {
+  margin-top: -40px;
+  margin-bottom: 30px;
+  text-align: center;
+  font-size: 260px;
+  color: #ffffff;
+  font-family: 'Fjalla One', sans-serif;
+  font-weight: 400;
+}
+.mainVideo-light {
+  margin-top: -80px;
+
+  text-align: center;
+  font-size: 40px;
+  color: #ffffff;
+  font-family: 'Merriweather', serif;
+  font-weight: 400;
+}
+.mainFixed {
+  width: 100%;
+  height: 300px;
+  margin-top: 50px;
+  background-color: #ff111f;
+  /* 배경이미지는 최소 1920*960으로 제작해야 문제가 안생김 */
+  background-size: cover; /* 요소를 비율에 맞게 커버 */
+  background-position: center; /* 이미지를 요소의 정가운데로 처리 */
+  background-attachment: fixed; /* 스크롤바 움직일때 이미지가 따라다님 */
+}
+.login {
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+}
+.loginBox {
+  background-color: rgba(255, 255, 255, 0.3);
+  margin-bottom: 3%;
+  margin-top: 3%;
+  width: 60%;
+  height: 80%;
+  position: absolute;
+  left: 18%;
+  display: inline-flex;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  box-shadow: 0 1px 1px #c0c0c0, 0 2px 0 #a8a7a6, 0 3px 0 #8b8a89,
+    0 4px 0 #7d7b7a, 0 5px 0 #686766, 0 6px 3px #5f5e5d,
+    inset 1px 1px 50px #7c7c7e;
+  padding: 30px;
+  overflow: hidden;
+  position: relative;
+
+  animation: 3s infinite alternate slidein;
+}
+
+.loginTitle {
+  font-family: 'Fjalla One', sans-serif;
+  font-size: 100px;
+}
+.loginBoxRight {
+  position: absolute;
+  width: 55%;
+}
+.loginBoxLeft {
+  position: absolute;
+  width: 45%;
+  background-image: linear-gradient(120deg, #d4fc79 0%, #96e6a1 100%);
+}
+.tags-input-container {
+  border: 2px solid #000;
+  padding: 0.5em;
+  border-radius: 3px;
+  width: min(80vw, 600px);
+  margin-top: 1em;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5em;
+}
+
+.tag-item {
+  background-color: rgb(218, 216, 216);
+  display: inline-block;
+  padding: 0.5em 0.75em;
+  border-radius: 20px;
+}
+.tag-item .close {
+  height: 20px;
+  width: 20px;
+  background-color: rgb(48, 48, 48);
+  color: #fff;
+  border-radius: 50%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 0.5em;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.tags-input {
+  flex-grow: 1;
+  padding: 0.5em 0;
+  border: none;
+  outline: none;
+}
+.input-field {
+  position: relative;
+}
+.input-field input {
+  width: 350px;
+  height: 60px;
+  border-radius: 6px;
+  font-size: 18px;
+  padding: 0 15px;
+  border: 2px solid #fff;
+  background: transparent;
+  color: #fff;
+  outline: none;
+}
+.input-field label {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
+  color: #fff;
+  font-size: 19px;
+  pointer-events: none;
+  transition: 0.3s;
+}
+input:focus {
+  border: 2px solid #18ffff;
+}
+input:focus ~ label,
+input:valid ~ label {
+  top: 0;
+  left: 15px;
+  font-size: 16px;
+  padding: 0 2px;
+  background: #060b23;
+}
